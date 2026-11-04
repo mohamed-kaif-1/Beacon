@@ -1,0 +1,102 @@
+# Publishes a release when a version tag is pushed:
+#   git tag v0.4.0 && git push origin v0.4.0
+# Builds the OCR helper natively on each architecture (Homebrew's thin
+# libraries can't be lipo'd), packages with release.sh, uploads the zip to a
+# GitHub release, and updates the cask in jonathanvineet/homebrew-tap.
+# The tap step needs a TAP_DEPLOY_KEY secret: the private half of a deploy key
+# with write access on the tap repo.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  ocr:
+    strategy:
+      # Let both architectures finish so one run shows every failure.
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-14
+          - arch: x86_64
+            runner: macos-15-intel
+    runs-on: ${{ matrix.runner }}
+    env:
+      OCR_MAX_MACOS: "14.0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Homebrew's tesseract targets the runner's macOS, newer than Helm's 14.0.
+      - uses: actions/cache@v4
+        id: tesseract
+        with:
+          path: build/tesseract
+          key: tesseract-${{ matrix.arch }}-${{ hashFiles('services/api/build_tesseract.sh') }}
+      - if: steps.tesseract.outputs.cache-hit != 'true'
+        run: services/api/build_tesseract.sh build/tesseract
+      - run: |
+          python -m venv services/api/.venv
+          services/api/.venv/bin/python -m pip install -r services/api/requirements-build.txt
+      - run: services/api/.venv/bin/python services/api/build_bundle.py --arch ${{ matrix.arch }}
+        env:
+          TESSERACT_CMD: build/tesseract/bin/tesseract
+          TESSDATA_PREFIX: build/tesseract/share/tessdata
+      # Tar first: artifact uploads drop the symlinks and permissions the app needs.
+      - run: tar -czf ocr-${{ matrix.arch }}.tgz -C build/ocr/${{ matrix.arch }} helm-ocr.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ocr-${{ matrix.arch }}
+          path: ocr-${{ matrix.arch }}.tgz
+
+  release:
+    needs: ocr
+    runs-on: macos-14
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ocr-*
+          merge-multiple: true
+      - run: |
+          for arch in arm64 x86_64; do
+              mkdir -p build/ci-ocr/$arch
+              tar -xzf ocr-$arch.tgz -C build/ci-ocr/$arch
+          done
+      - name: Package
+        env:
+          OCR_BUNDLE_DIR: ${{ github.workspace }}/build/ci-ocr
+          OCR_BUILD_PYTHON: python3
+        working-directory: apps/macos
+        run: ./release.sh "${GITHUB_REF_NAME#v}"
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          gh release create "$GITHUB_REF_NAME" "apps/macos/dist/Helm-$VERSION.zip" \
+              --title "Helm $VERSION" --generate-notes
+      - name: Update Homebrew cask
+        env:
+          TAP_DEPLOY_KEY: ${{ secrets.TAP_DEPLOY_KEY }}
+        run: |
+          if [[ -z "$TAP_DEPLOY_KEY" ]]; then
+              echo "::warning::TAP_DEPLOY_KEY not set; copy apps/macos/dist/helm.rb to the tap by hand."
+              exit 0
+          fi
+          KEY="$RUNNER_TEMP/tap_key"
+          printf '%s\n' "$TAP_DEPLOY_KEY" > "$KEY"
+          chmod 600 "$KEY"
+          export GIT_SSH_COMMAND="ssh -i $KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          git clone git@github.com:jonathanvineet/homebrew-tap.git tap
+          cp apps/macos/dist/helm.rb tap/Casks/helm.rb
+          cd tap
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "helm ${GITHUB_REF_NAME#v}"
+          git push

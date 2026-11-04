@@ -1,0 +1,254 @@
+import AppKit
+import Combine
+import SwiftUI
+
+// Helm.app: menu bar agent. Keeps the screensaver's notes/reminders board in
+// sync and hosts the Customize window.
+
+let args = CommandLine.arguments
+if let i = args.firstIndex(of: "--write-iconset"), i + 1 < args.count {
+    MainActor.assumeIsolated { Logo.writeIconset(to: args[i + 1]) }
+    exit(0)
+}
+// Started by Brave/Chrome for Helm's browser extension: handle one message and exit.
+if NativeHost.isInvocation(args) { NativeHost.run() }
+
+let app = NSApplication.shared
+let delegate = MainActor.assumeIsolated { AppDelegate() }
+app.delegate = delegate
+app.setActivationPolicy(.accessory)
+app.run()
+
+@MainActor
+final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWindowDelegate {
+    private let engine = SyncEngine()
+    private var statusItem: NSStatusItem!
+    private var statusLine: NSMenuItem!
+    private var updateItem: NSMenuItem!
+    private var settingsWindow: NSWindow?
+    private var quoteWindow: NSWindow?
+    private lazy var alerts = WatchAlerts(engine: engine)
+    private var watchItems: [NSMenuItem] = []
+    private var boardObserver: AnyCancellable?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem.button?.image = Logo.menuBarImage()
+        statusItem.button?.toolTip = "Helm"
+
+        let menu = NSMenu()
+        menu.delegate = self
+        statusLine = menu.addItem(withTitle: "", action: nil, keyEquivalent: "")
+        statusLine.isEnabled = false
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Customize…", action: #selector(openSettings), keyEquivalent: ",")
+        menu.addItem(withTitle: "Print Quote…", action: #selector(openPrintQuote), keyEquivalent: "p")
+        menu.addItem(withTitle: "Sync Now", action: #selector(syncNow), keyEquivalent: "r")
+        menu.addItem(withTitle: "Start Screensaver", action: #selector(startScreensaver), keyEquivalent: "s")
+        menu.addItem(withTitle: "Open Notes", action: #selector(openNotes), keyEquivalent: "")
+        menu.addItem(.separator())
+        updateItem = menu.addItem(withTitle: "Check for Updates…", action: #selector(checkForUpdates), keyEquivalent: "")
+        menu.addItem(withTitle: "Quit Helm", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        for item in menu.items where item.action != nil && item.action != #selector(NSApplication.terminate(_:)) {
+            item.target = self
+        }
+        statusItem.menu = menu
+
+        engine.start()
+        log("Helm started")
+        NativeHost.install()
+        DistributedNotificationCenter.default().addObserver(forName: NativeHost.changed, object: nil, queue: .main) { [engine] _ in
+            MainActor.assumeIsolated { engine.syncNow() }
+        }
+        alerts.start()
+        // Keep the menu bar count of watches that need you current.
+        boardObserver = engine.$board.receive(on: DispatchQueue.main).sink { [weak self] _ in
+            MainActor.assumeIsolated { self?.updateStatusCount() }
+        }
+        unquarantineSaver()
+        Updater.shared.onChange = { [weak self] in self?.updateUpdateItem() }
+        Updater.shared.start()
+        firstLaunch()
+    }
+
+    // MARK: Watched pages in the menu bar
+
+    func applicationWillTerminate(_ notification: Notification) {
+        QuoteHelper.shared.stop()
+        QuoteScreenCapture.shared.stop()
+    }
+
+    private func updateStatusCount() {
+        let count = BoardWatch.load().filter { $0.state == .attention }.count
+        statusItem.button?.title = count > 0 ? " \(count)" : ""
+        statusItem.button?.imagePosition = .imageLeading
+        statusItem.button?.toolTip = count > 0 ? "Helm: \(count) watched page\(count == 1 ? "" : "s") need\(count == 1 ? "s" : "") you" : "Helm"
+    }
+
+    /// "Waiting on" items at the top of the menu; choosing one opens the page.
+    private func rebuildWatchItems(in menu: NSMenu) {
+        watchItems.forEach(menu.removeItem)
+        watchItems = []
+        let now = Date()
+        let order: [BoardWatch.State] = [.attention, .pending, .watching, .done]
+        let watches = BoardWatch.load()
+            .filter { !$0.stale(now: now) }
+            .sorted { order.firstIndex(of: $0.state)! < order.firstIndex(of: $1.state)! }
+        guard !watches.isEmpty else { return }
+
+        var items: [NSMenuItem] = []
+        let header = NSMenuItem(title: "Waiting on", action: nil, keyEquivalent: "")
+        header.isEnabled = false
+        items.append(header)
+        for watch in watches.prefix(12) {
+            var detail = watch.quoted ? "“\(watch.text)”" : watch.text
+            if let countdown = watch.countdown(now: now) { detail += " · " + countdown }
+            let mark = watch.state == .attention ? "⚠︎ " : watch.state == .done ? "✓ " : ""
+            let item = NSMenuItem(title: "\(BoardWatch.emoji(watch.kind))  \(watch.name) — \(mark)\(detail)",
+                                  action: #selector(openWatch(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = watch.url
+            item.isEnabled = watch.url != nil
+            items.append(item)
+        }
+        items.append(.separator())
+        for (offset, item) in items.enumerated() { menu.insertItem(item, at: 2 + offset) }
+        watchItems = items
+    }
+
+    @objc private func openWatch(_ sender: NSMenuItem) {
+        guard let link = sender.representedObject as? String, let url = URL(string: link) else { return }
+        NSWorkspace.shared.open(url)
+    }
+
+    /// Helm isn't notarized, and legacyScreenSaver won't load a quarantined
+    /// saver. The Homebrew cask can't reach ~/Library/Screen Savers from its
+    /// sandbox, so the app clears the flag itself.
+    private func unquarantineSaver() {
+        let paths = [realHome + "/Library/Screen Savers/Helm.saver", "/Library/Screen Savers/Helm.saver"]
+        for path in paths where FileManager.default.fileExists(atPath: path) {
+            let xattr = Process()
+            xattr.executableURL = URL(fileURLWithPath: "/usr/bin/xattr")
+            xattr.arguments = ["-dr", "com.apple.quarantine", path]
+            try? xattr.run()
+        }
+    }
+
+    /// Installed via Homebrew rather than build.sh: turn on open-at-login, and
+    /// if the screensaver has never been selected, send the user to pick it.
+    private func firstLaunch() {
+        let key = "didFirstLaunch"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+        UserDefaults.standard.set(true, forKey: key)
+        if !LoginItem.isEnabled { LoginItem.set(true) }
+        if !Board.containerReady {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.ScreenSaver-Settings.extension")!)
+        }
+        openSettings()
+    }
+
+    func menuWillOpen(_ menu: NSMenu) {
+        let notes = engine.board?.notes.count ?? 0
+        let todo = engine.board?.todo.count ?? 0
+        var line = "\(notes) note\(notes == 1 ? "" : "s") · \(todo) to do"
+        if let updated = engine.board?.updated {
+            line += " · synced " + updated.formatted(.relative(presentation: .named))
+        }
+        statusLine.title = line
+        rebuildWatchItems(in: menu)
+        updateStatusCount()
+    }
+
+    @objc private func openSettings() {
+        if settingsWindow == nil {
+            let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 860, height: 720),
+                                  styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+                                  backing: .buffered, defer: false)
+            window.title = "Helm"
+            window.titlebarAppearsTransparent = true
+            window.isReleasedWhenClosed = false
+            window.contentView = NSHostingView(rootView: SettingsView(engine: engine))
+            window.center()
+            window.delegate = self
+            settingsWindow = window
+        }
+        // Show in the Dock and app switcher while the window is open.
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        settingsWindow?.makeKeyAndOrderFront(nil)
+    }
+
+    @objc private func openPrintQuote() {
+        if quoteWindow == nil {
+            let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 700, height: 820),
+                                  styleMask: [.titled, .closable, .miniaturizable, .resizable],
+                                  backing: .buffered, defer: false)
+            window.title = "Helm — Print Quote"
+            window.isReleasedWhenClosed = false
+            window.contentView = NSHostingView(rootView: PrintQuoteView())
+            window.center()
+            window.delegate = self
+            quoteWindow = window
+        }
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+        quoteWindow?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        let closing = notification.object as? NSWindow
+        if ![settingsWindow, quoteWindow].compactMap({ $0 }).contains(where: { $0 !== closing && ($0.isVisible || $0.isMiniaturized) }) {
+            NSApp.setActivationPolicy(.accessory)
+        }
+    }
+
+    @objc private func syncNow() { engine.syncNow() }
+
+    @objc private func checkForUpdates() {
+        Task { await Updater.shared.check(interactive: true) }
+    }
+
+    private func updateUpdateItem() {
+        let updater = Updater.shared
+        updateItem.isEnabled = !updater.installing
+        updateItem.title = updater.installing ? "Installing Update…"
+            : updater.available.map { "Update to Helm \($0.version)…" } ?? "Check for Updates…"
+    }
+
+    @objc private func startScreensaver() {
+        NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: "/System/Library/CoreServices/ScreenSaverEngine.app"),
+                                           configuration: .init())
+    }
+
+    @objc private func openNotes() {
+        NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: "/System/Applications/Notes.app"), configuration: .init())
+    }
+}
+
+/// Login launch via a LaunchAgent (installed by build.sh). Removing the file
+/// turns it off from the next login.
+enum LoginItem {
+    static let label = "com.jonathanvineet.helm"
+    static var plist: URL {
+        URL(fileURLWithPath: realHome).appendingPathComponent("Library/LaunchAgents/\(label).plist")
+    }
+
+    static var isEnabled: Bool { FileManager.default.fileExists(atPath: plist.path) }
+
+    static func set(_ on: Bool) {
+        if on {
+            let dict: [String: Any] = [
+                "Label": label,
+                "ProgramArguments": [Bundle.main.executablePath ?? ""],
+                "RunAtLoad": true,
+                "KeepAlive": ["SuccessfulExit": false],
+                "ProcessType": "Interactive",
+                "StandardOutPath": realHome + "/Library/Logs/Helm.log",
+                "StandardErrorPath": realHome + "/Library/Logs/Helm.log",
+            ]
+            (dict as NSDictionary).write(to: plist, atomically: true)
+        } else {
+            try? FileManager.default.removeItem(at: plist)
+        }
+    }
+}

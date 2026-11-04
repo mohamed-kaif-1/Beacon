@@ -1,0 +1,196 @@
+{
+  "name": "beacon-windows",
+  "version": "0.1.0",
+  "description": "BEACON — Windows Desktop Application Foundation",
+  "main": "./out/main/index.js",
+  "author": "BEACON Contributors",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "node scripts/generate-ico.cjs && electron-vite build && node scripts/build-launcher.cjs",
+    "build:launcher": "node scripts/build-launcher.cjs",
+    "preview": "electron-vite preview",
+    "start": "electron .",
+    "test": "node scripts/test-smoke.cjs && node scripts/test-protocol.cjs && node scripts/test-ambient.cjs && node scripts/test-wallpaper-assets.cjs && node scripts/test-brand-icons.cjs && node scripts/test-screensaver-readability.cjs && node scripts/test-notes-tasks.cjs && node scripts/test-onboarding.cjs && node scripts/test-extension-status.cjs && node scripts/test-diagnostics.cjs && node scripts/test-settings.cjs && node scripts/test-branding-release.cjs && node scripts/test-installer.cjs && node scripts/test-performance.cjs && node scripts/test-accessibility.cjs && node scripts/test-stability.cjs && node scripts/test-weather.cjs && node scripts/test-screensaver.cjs && node scripts/test-screensaver-transitions-tasks.cjs && node scripts/test-screensaver-activation-flash.cjs && node scripts/test-installer-postinstall-finish.cjs && node scripts/test-screensaver-safe-dismissal.cjs",
+    "test:smoke": "node scripts/test-smoke.cjs",
+    "test:protocol": "node scripts/test-protocol.cjs",
+    "test:ambient": "node scripts/test-ambient.cjs",
+    "test:wallpaper-assets": "node scripts/test-wallpaper-assets.cjs",
+    "test:brand-icons": "node scripts/test-brand-icons.cjs",
+    "test:screensaver-readability": "node scripts/test-screensaver-readability.cjs",
+    "test:notes-tasks": "node scripts/test-notes-tasks.cjs",
+    "test:onboarding": "node scripts/test-onboarding.cjs",
+    "test:extension-status": "node scripts/test-extension-status.cjs",
+    "test:diagnostics": "node scripts/test-diagnostics.cjs",
+    "test:settings": "node scripts/test-settings.cjs",
+    "test:branding": "node scripts/test-branding-release.cjs",
+    "test:installer": "node scripts/test-installer.cjs",
+    "test:performance": "node scripts/test-performance.cjs",
+    "test:a11y": "node scripts/test-accessibility.cjs",
+    "test:stability": "node scripts/test-stability.cjs",
+    "test:weather": "node scripts/test-weather.cjs",
+    "test:screensaver": "node scripts/test-screensaver.cjs",
+    "test:screensaver-transitions": "node scripts/test-screensaver-transitions-tasks.cjs",
+    "test:screensaver-activation": "node scripts/test-screensaver-activation-flash.cjs",
+    "test:screensaver-safe-dismissal": "node scripts/test-screensaver-safe-dismissal.cjs",
+    "test:postinstall": "node scripts/test-installer-postinstall-finish.cjs",
+    "test:installed-weather": "node scripts/verify-installed-weather.cjs",
+    "register": "powershell -ExecutionPolicy Bypass -File scripts/register-native-host.ps1",
+    "unregister": "powershell -ExecutionPolicy Bypass -File scripts/unregister-native-host.ps1",
+    "register:screensaver": "powershell -ExecutionPolicy Bypass -File scripts/register-screensaver.ps1",
+    "unregister:screensaver": "powershell -ExecutionPolicy Bypass -File scripts/unregister-screensaver.ps1",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "package": "npm run package:win",
+    "package:win": "npm run build && electron-builder --win --dir",
+    "dist:win": "npm run build && electron-builder --win"
+  },
+  "dependencies": {
+    "@types/sql.js": "^1.4.11",
+    "lucide-react": "^0.475.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.15.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.1.0",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.1"
+  },
+  "build": {
+    "appId": "com.jonathanvineet.beacon",
+    "productName": "BEACON",
+    "copyright": "Copyright © 2026 Jonathan Vineet & BEACON Contributors",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/sql.js/dist/sql-wasm.wasm"
+    ],
+    "extraFiles": [
+      {
+        "from": "out/main/beacon-native-host.exe",
+        "to": "beacon-native-host.exe",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/beacon-native-host.bat",
+        "to": "beacon-native-host.bat",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/helm-native-host.exe",
+        "to": "helm-native-host.exe",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/helm-native-host.bat",
+        "to": "helm-native-host.bat",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/native-host.js",
+        "to": "native-host.js",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/chunks",
+        "to": "chunks",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/Beacon.scr",
+        "to": "Beacon.scr",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "out/main/Helm.scr",
+        "to": "Helm.scr",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "resources/wallpapers",
+        "to": "resources/wallpapers",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "resources/icon.ico",
+        "to": "resources/icon.ico",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "resources/icon.png",
+        "to": "resources/icon.png",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "resources/icon-tray.png",
+        "to": "resources/icon-tray.png",
+        "filter": [
+          "*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico",
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "executableName": "Beacon"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": false,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "BEACON",
+      "uninstallDisplayName": "BEACON",
+      "deleteAppDataOnUninstall": false,
+      "include": "resources/installer.nsh"
+    }
+  }
+}

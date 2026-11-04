@@ -1,0 +1,145 @@
+import React from 'react'
+
+export interface BeaconSymbolProps {
+  size?: number
+  className?: string
+  variant?: 'color' | 'white' | 'dark'
+  idPrefix?: string
+}
+
+export interface BeaconLogoProps extends BeaconSymbolProps {
+  showWordmark?: boolean
+  showTagline?: boolean
+}
+
+// Precision vector paths for The Quiet Path
+const WING_PATH =
+  'M 295.8 269.3 C 293.6 269.3, 281.8 270.0, 278.1 269.3 C 274.4 268.5, 286.2 265.6, 273.7 264.8 C 261.2 264.1, 215.5 264.1, 203.0 264.8 C 190.5 265.6, 204.4 267.8, 198.6 269.3 C 192.7 270.7, 173.5 272.2, 167.6 273.7 C 161.7 275.1, 169.1 275.1, 163.2 278.1 C 157.3 281.0, 138.9 287.7, 132.3 291.3 C 125.7 295.0, 125.7 298.7, 123.4 300.2 C 121.2 301.7, 121.2 298.7, 119.0 300.2 C 116.8 301.7, 112.4 307.6, 110.2 309.0 C 108.0 310.5, 113.1 302.4, 105.8 309.0 C 98.4 315.7, 70.4 340.0, 66.0 348.8 C 61.6 357.6, 76.3 359.8, 79.3 362.0 C 82.2 364.3, 82.2 361.3, 83.7 362.0 C 85.1 362.8, 85.9 365.7, 88.1 366.5 C 90.3 367.2, 94.7 365.7, 96.9 366.5 C 99.1 367.2, 97.7 370.1, 101.3 370.9 C 105.0 371.6, 115.3 371.6, 119.0 370.9 C 122.7 370.1, 121.2 367.2, 123.4 366.5 C 125.7 365.7, 130.1 367.2, 132.3 366.5 C 134.5 365.7, 135.2 362.8, 136.7 362.0 C 138.2 361.3, 138.2 364.3, 141.1 362.0 C 144.1 359.8, 151.4 351.0, 154.4 348.8 C 157.3 346.6, 152.2 354.7, 158.8 348.8 C 165.4 342.9, 187.5 319.3, 194.1 313.4 C 200.8 307.6, 194.1 316.4, 198.6 313.4 C 203.0 310.5, 216.2 298.7, 220.7 295.8 C 225.1 292.8, 220.7 298.0, 225.1 295.8 C 229.5 293.6, 242.0 284.7, 247.2 282.5 C 252.3 280.3, 253.8 283.2, 256.0 282.5 C 258.2 281.8, 258.2 278.8, 260.4 278.1 C 262.6 277.4, 267.0 278.8, 269.3 278.1 C 271.5 277.4, 270.7 274.4, 273.7 273.7 C 276.6 272.9, 284.0 274.4, 286.9 273.7 C 289.9 272.9, 289.9 270.0, 291.3 269.3 C 292.8 268.5, 298.0 269.3, 295.8 269.3 Z'
+
+const ARCH_PATH =
+  'M 154.4 256.0 C 148.5 267.8, 182.4 229.5, 194.1 220.7 C 205.9 211.8, 216.2 206.7, 225.1 203.0 C 233.9 199.3, 239.8 198.6, 247.2 198.6 C 254.5 198.6, 257.5 197.1, 269.3 203.0 C 281.0 208.9, 300.9 219.9, 317.9 233.9 C 334.8 247.9, 360.6 274.4, 370.9 286.9 C 381.2 299.4, 381.9 301.7, 379.7 309.0 C 377.5 316.4, 372.4 327.4, 357.6 331.1 C 342.9 334.8, 310.5 332.6, 291.3 331.1 C 272.2 329.6, 238.3 317.9, 242.7 322.3 C 247.2 326.7, 296.5 349.5, 317.9 357.6 C 339.2 365.7, 354.7 369.4, 370.9 370.9 C 387.1 372.4, 403.3 371.6, 415.1 366.5 C 426.9 361.3, 437.2 350.3, 441.6 340.0 C 446.0 329.6, 446.0 317.1, 441.6 304.6 C 437.2 292.1, 436.4 289.1, 415.1 264.8 C 393.7 240.5, 337.0 180.1, 313.4 158.8 C 289.9 137.4, 283.2 140.4, 273.7 136.7 C 264.1 133.0, 263.4 134.5, 256.0 136.7 C 248.6 138.9, 246.4 130.1, 229.5 150.0 C 212.6 169.8, 160.3 244.2, 154.4 256.0 Z'
+
+// Geometric Wordmark Glyph Paths
+const WORDMARK_B = 'M 100 356 L 120 356 C 127 356 132 360 132 367 C 132 373 128 377 121 378 C 129 379 133 384 133 391 C 133 398 127 400 120 400 L 100 400 Z M 104.5 360 L 104.5 375.5 L 119 C 124 375.5 127 373 127 367.5 C 127 362 124 360 119 360 Z M 104.5 379.5 L 104.5 396 L 120 C 125 396 128 393.5 128 388 C 128 382.5 125 379.5 120 379.5 Z'
+const WORDMARK_E = 'M 158 356 L 186 356 L 186 360 L 162.5 360 L 162.5 376 L 183 376 L 183 380 L 162.5 380 L 162.5 396 L 186 396 L 186 400 L 158 400 Z'
+const WORDMARK_A = 'M 228 356 L 244 400 L 239.5 400 L 228 368 L 216.5 400 L 212 400 Z'
+const WORDMARK_C = 'M 296 365 C 294 359 288 356 281 356 C 270 356 263 365 263 378 C 263 391 270 400 281 400 C 288 400 294 397 296 391 L 291.5 389.5 C 289.5 393.5 285.5 396 281 396 C 272.5 396 267.5 388.5 267.5 378 C 267.5 367.5 272.5 360 281 360 C 285.5 360 289.5 362.5 291.5 366.5 Z'
+const WORDMARK_O = 'M 340 356 C 352 356 360 366 360 378 C 360 390 352 400 340 400 C 328 400 320 390 320 378 C 320 366 328 356 340 356 Z M 340 360 C 330.5 360 324.5 368 324.5 378 C 324.5 388 330.5 396 340 396 C 349.5 396 355.5 388 355.5 378 C 355.5 368 349.5 360 340 360 Z'
+const WORDMARK_N = 'M 384 356 L 388.5 356 L 406 389 L 406 356 L 410.5 356 L 410.5 400 L 406 400 L 388.5 367 L 388.5 400 L 384 400 Z'
+
+export const BeaconSymbol: React.FC<BeaconSymbolProps> = ({
+  size = 24,
+  className = '',
+  variant = 'color',
+  idPrefix = 'bcn'
+}) => {
+  const wingGradId = `${idPrefix}-wing`
+  const archGradId = `${idPrefix}-arch`
+
+  if (variant === 'white') {
+    return (
+      <svg
+        viewBox="60 130 390 250"
+        width={size}
+        height={size * (250 / 390)}
+        className={`inline-block shrink-0 select-none ${className}`}
+        fill="#FFFFFF"
+        aria-hidden="true"
+      >
+        <path d={ARCH_PATH} />
+        <path d={WING_PATH} />
+      </svg>
+    )
+  }
+
+  if (variant === 'dark') {
+    return (
+      <svg
+        viewBox="60 130 390 250"
+        width={size}
+        height={size * (250 / 390)}
+        className={`inline-block shrink-0 select-none ${className}`}
+        fill="#0F172A"
+        aria-hidden="true"
+      >
+        <path d={ARCH_PATH} />
+        <path d={WING_PATH} />
+      </svg>
+    )
+  }
+
+  return (
+    <svg
+      viewBox="60 130 390 250"
+      width={size}
+      height={size * (250 / 390)}
+      className={`inline-block shrink-0 select-none ${className}`}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={wingGradId} x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#38BDF8" />
+          <stop offset="35%" stopColor="#4F8CFF" />
+          <stop offset="75%" stopColor="#6366F1" />
+          <stop offset="100%" stopColor="#8B5CF6" />
+        </linearGradient>
+        <linearGradient id={archGradId} x1="15%" y1="80%" x2="85%" y2="15%">
+          <stop offset="0%" stopColor="#4F46E5" />
+          <stop offset="30%" stopColor="#6366F1" />
+          <stop offset="60%" stopColor="#8B5CF6" />
+          <stop offset="85%" stopColor="#A855F7" />
+          <stop offset="100%" stopColor="#7C3AED" />
+        </linearGradient>
+      </defs>
+      <path d={ARCH_PATH} fill={`url(#${archGradId})`} />
+      <path d={WING_PATH} fill={`url(#${wingGradId})`} />
+    </svg>
+  )
+}
+
+export const BeaconLogo: React.FC<BeaconLogoProps> = ({
+  size = 32,
+  className = '',
+  variant = 'color',
+  showWordmark = true,
+  showTagline = false,
+  idPrefix = 'bcn-full'
+}) => {
+  const textColor = variant === 'dark' ? '#0F172A' : '#FFFFFF'
+  const taglineColor = variant === 'dark' ? '#6366F1' : '#818CF8'
+
+  return (
+    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+      <BeaconSymbol size={size} variant={variant} idPrefix={idPrefix} />
+      {showWordmark && (
+        <div className="flex flex-col">
+          <svg
+            viewBox="96 352 318 52"
+            width={size * 3.2}
+            height={size * 0.52}
+            className="shrink-0"
+            aria-label="BEACON"
+          >
+            <g fill={textColor}>
+              <path d={WORDMARK_B} />
+              <path d={WORDMARK_E} />
+              <path d={WORDMARK_A} />
+              <path d={WORDMARK_C} />
+              <path d={WORDMARK_O} />
+              <path d={WORDMARK_N} />
+            </g>
+          </svg>
+          {showTagline && (
+            <span
+              className="text-[9px] uppercase tracking-[0.22em] font-medium mt-0.5"
+              style={{ color: taglineColor }}
+            >
+              Find Your Focus
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
