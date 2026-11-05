@@ -56,11 +56,11 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
       <div className="inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass">
         <div className="flex items-center gap-2">
           <Eye className="w-4 h-4 text-emerald-400 drop-shadow" />
-          <h2 className="text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text">
+          <h2 className="text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text">
             Ambient Watch Feed
           </h2>
         </div>
-        <span className="text-xs font-mono font-bold text-emerald-400 ambient-shadow-text">
+        <span className="text-xs font-mono font-medium text-slate-400 ambient-shadow-text">
           {watches.length} tracked
         </span>
       </div>
@@ -74,44 +74,44 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
               <div
                 key={`attention-${w.name}-${idx}`}
                 style={glassStyle}
-                className="p-4 rounded-2xl ambient-card-glass-overdue text-white space-y-2.5 transition-all hover:border-rose-400/60"
+                className="p-4 rounded-2xl ambient-card-glass-overdue text-white space-y-2.5 transition-all hover:border-rose-400/50"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-lg shrink-0 drop-shadow">{emoji}</span>
                     <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-bold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]">
+                      <h4 className="text-xs sm:text-sm font-semibold text-white truncate drop-shadow">
                         {w.name}
                       </h4>
-                      <span className="text-[11px] text-rose-200 font-bold">
+                      <span className="text-[11px] text-rose-300/90 font-medium">
                         Requires Attention
                       </span>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/30 text-rose-100 border border-rose-400/40">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-500/15 text-rose-300 border border-rose-500/25">
                     <AlertCircle className="w-3 h-3" />
                     Alert
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-100 leading-relaxed font-normal bg-white/10 p-2.5 rounded-xl border border-white/20">
+                <p className="text-xs text-slate-300 leading-relaxed font-normal bg-black/25 p-2.5 rounded-xl border border-white/5">
                   {w.text}
                 </p>
 
                 {w.steps > 0 && (
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[11px] text-slate-200 font-medium">
+                    <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>Stage</span>
-                      <span className="font-semibold text-white">
+                      <span className="font-medium text-slate-200">
                         {w.step} of {w.steps}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-white/25 rounded-full overflow-hidden flex gap-0.5">
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden flex gap-0.5">
                       {Array.from({ length: w.steps }).map((_, i) => (
                         <div
                           key={i}
                           className={`h-full flex-1 ${
-                            i < w.step ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]' : 'bg-white/15'
+                            i < w.step ? 'bg-rose-500/80' : 'bg-white/10'
                           }`}
                         />
                       ))}
@@ -125,7 +125,7 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                       type="button"
                       onClick={() => handleOpenUrl(w.url)}
                       aria-label={`Review details for ${w.name}`}
-                      className="inline-flex items-center gap-1.5 text-xs text-white/90 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1.5 py-0.5"
+                      className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1.5 py-0.5"
                     >
                       <span>Review Details</span>
                       <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -147,27 +147,27 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
               <div
                 key={`watch-${w.name}-${idx}`}
                 style={glassStyle}
-                className="p-3.5 rounded-2xl ambient-card-glass text-white space-y-2 hover:border-white/25 transition-all"
+                className="p-3.5 rounded-2xl ambient-card-glass text-white space-y-2 hover:border-white/15 transition-all"
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-base shrink-0 drop-shadow">{emoji}</span>
-                    <h4 className="text-xs sm:text-sm font-semibold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]">
+                    <h4 className="text-xs sm:text-sm font-semibold text-white truncate drop-shadow">
                       {w.name}
                     </h4>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/25 text-emerald-200 border border-emerald-400/35">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
                     {w.state === 'pending' ? <Clock className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
                     {w.state === 'pending' ? 'Pending' : 'Watching'}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
                   {w.quoted ? `“${w.text}”` : w.text}
                 </p>
 
                 {w.steps > 0 && (
-                  <div className="flex items-center justify-between text-[10px] text-slate-300 font-medium pt-0.5">
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-0.5">
                     <span>
                       Stage {w.step} of {w.steps}
                     </span>
@@ -176,7 +176,7 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                         type="button"
                         onClick={() => handleOpenUrl(w.url)}
                         aria-label={`Open ${w.name} in browser`}
-                        className="text-emerald-300 hover:text-emerald-200 font-semibold transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1"
+                        className="text-slate-400 hover:text-white font-medium transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1"
                       >
                         <span>Open</span>
                         <ExternalLink className="w-2.5 h-2.5" aria-hidden="true" />

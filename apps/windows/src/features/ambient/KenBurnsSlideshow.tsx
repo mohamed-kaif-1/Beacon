@@ -108,9 +108,6 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
             className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{
-              filter: 'brightness(1.20) contrast(1.06) saturate(1.15)'
-            }}
           />
         )}
       </div>
@@ -141,11 +138,11 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
         </div>
       )}
 
-      {/* Atmospheric Dimming Overlay (gentle user-adjustable curve that preserves vibrancy without crushing brightness) */}
+      {/* Atmospheric Dimming Overlay (subtle, carefully calibrated to preserve natural photography depth) */}
       <div
         className="absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500"
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.10, 0), 0.20)})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.12, 0), 0.25)})`
         }}
       />
 

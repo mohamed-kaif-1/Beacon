@@ -108,7 +108,7 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
       <div className="flex flex-col space-y-2.5 max-w-sm w-full animate-fadeIn select-none">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl ambient-header-glass w-fit">
           <CheckSquare className="w-4 h-4 text-emerald-400 drop-shadow" />
-          <h2 className="text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text">
+          <h2 className="text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text">
             Pending Tasks
           </h2>
         </div>
@@ -117,7 +117,7 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
           className="p-3.5 rounded-2xl ambient-card-glass text-white text-xs flex items-center gap-2.5 shadow-lg"
         >
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 drop-shadow" />
-          <span className="text-[#FFFFFF] font-semibold text-xs sm:text-sm">No pending tasks</span>
+          <span className="text-slate-300 font-medium text-xs sm:text-sm">No pending tasks</span>
         </div>
       </div>
     )
@@ -129,11 +129,11 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
       <div className="inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass">
         <div className="flex items-center gap-2">
           <CheckSquare className="w-4 h-4 text-emerald-400 drop-shadow" />
-          <h2 className="text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text">
+          <h2 className="text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text">
             {isScreensaver ? 'Pending Tasks' : 'Focus & Reminders'}
           </h2>
         </div>
-        <span className="text-xs font-mono font-bold text-emerald-400 ambient-shadow-text">
+        <span className="text-xs font-mono font-medium text-slate-400 ambient-shadow-text">
           {tasks.length} active
         </span>
       </div>
@@ -155,17 +155,17 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
               }`}
             >
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-xs sm:text-sm font-bold text-[#FFFFFF] leading-snug line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <h4 className="text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-1 drop-shadow">
                   {task.title}
                 </h4>
 
                 <span
-                  className={`text-[10px] px-2 py-0.5 rounded-full capitalize font-bold tracking-wide shrink-0 ${
+                  className={`text-[10px] px-2 py-0.5 rounded-full capitalize font-medium tracking-wide shrink-0 ${
                     task.priority === 'high'
-                      ? 'bg-rose-500/40 text-white border border-rose-400/60 shadow-sm'
+                      ? 'bg-rose-500/15 text-rose-300 border border-rose-500/25'
                       : task.priority === 'medium'
-                      ? 'bg-amber-500/40 text-white border border-amber-400/60 shadow-sm'
-                      : 'bg-sky-500/40 text-white border border-sky-400/60 shadow-sm'
+                      ? 'bg-amber-500/15 text-amber-300 border border-amber-500/25'
+                      : 'bg-slate-700/25 text-slate-300 border border-slate-600/25'
                   }`}
                 >
                   {task.priority}
@@ -174,19 +174,19 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
 
               {/* In screensaver mode: descriptions and notes are strictly omitted for privacy */}
               {!isScreensaver && task.description && (
-                <p className="text-xs text-slate-200 line-clamp-1 leading-normal font-normal">
+                <p className="text-xs text-slate-400 line-clamp-1 leading-normal font-normal pt-0.5">
                   {task.description}
                 </p>
               )}
 
               {task.dueDate && (
-                <div className="flex items-center gap-1.5 text-[11px] font-semibold pt-0.5">
+                <div className="flex items-center gap-1.5 text-[11px] font-medium pt-0.5">
                   {due.isOverdue ? (
                     <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" />
                   ) : (
-                    <Clock className="w-3.5 h-3.5 text-slate-300 shrink-0 drop-shadow" />
+                    <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0 drop-shadow" />
                   )}
-                  <span className={due.isOverdue ? 'text-rose-200 font-bold' : 'text-slate-200 font-semibold'}>
+                  <span className={due.isOverdue ? 'text-rose-300 font-medium' : 'text-slate-400 font-normal'}>
                     {due.label}
                   </span>
                 </div>

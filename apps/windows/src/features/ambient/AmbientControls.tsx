@@ -47,7 +47,7 @@ export const AmbientControls: React.FC<AmbientControlsProps> = ({
           : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
     >
-      <div className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-full bg-slate-900/50 backdrop-blur-2xl border border-white/25 text-white shadow-2xl transition-all">
+      <div className="flex items-center gap-1.5 p-1.5 px-2.5 rounded-full bg-slate-950/60 backdrop-blur-xl border border-white/10 text-white shadow-xl transition-all">
         {/* Return to Desktop */}
         <button
           type="button"

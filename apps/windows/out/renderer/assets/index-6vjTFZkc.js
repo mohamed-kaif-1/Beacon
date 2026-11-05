@@ -10209,10 +10209,7 @@ const KenBurnsSlideshow = ({
           loading: "eager",
           onLoad: () => handleImageLoad(wallpaper.id),
           onError: () => handleImageError(wallpaper.id),
-          className: `absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`,
-          style: {
-            filter: "brightness(1.20) contrast(1.06) saturate(1.15)"
-          }
+          className: `absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`
         }
       )
     ] });
@@ -10236,7 +10233,7 @@ const KenBurnsSlideshow = ({
       {
         className: "absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500",
         style: {
-          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.1, 0), 0.2)})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.12, 0), 0.25)})`
         }
       }
     ),
@@ -10414,13 +10411,13 @@ const AmbientClockWeather = ({
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex flex-col space-y-1.5 px-5 py-3.5 rounded-2xl ambient-surface-glass max-w-fit select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(BeaconSymbol, { size: isScreensaver ? 20 : 18 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs uppercase tracking-widest font-bold text-[#FFFFFF] ambient-shadow-text", children: "BEACON Ambient" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs uppercase tracking-widest font-semibold text-[#FFFFFF] ambient-shadow-text", children: "BEACON Ambient" }),
           settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/60 text-xs", children: "•" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-semibold text-slate-200 ambient-shadow-text", children: dateStr })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/40 text-xs", children: "•" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-slate-300 ambient-shadow-text", children: dateStr })
           ] })
         ] }),
-        settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#FFFFFF] ambient-shadow-heading", children: dateStr.split(",")[0] })
+        settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-[#FFFFFF] ambient-shadow-heading", children: dateStr.split(",")[0] })
       ] }),
       settings.showClock && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-baseline gap-2.5 px-6 py-3.5 rounded-2xl ambient-surface-glass select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -10433,7 +10430,7 @@ const AmbientClockWeather = ({
         ampmStr && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "span",
           {
-            className: `font-bold tracking-wider text-slate-200 uppercase ambient-shadow-text ml-1.5 ${isScreensaver ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}`,
+            className: `font-medium tracking-wider text-slate-300 uppercase ambient-shadow-text ml-1.5 ${isScreensaver ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}`,
             children: ampmStr
           }
         )
@@ -10444,16 +10441,16 @@ const AmbientClockWeather = ({
         "div",
         {
           onClick: onOpenSettings,
-          className: "group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs sm:text-sm text-white",
+          className: "group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/20 transition-all text-xs sm:text-sm text-white",
           title: `Weather data by Open-Meteo${weather.isStale ? " (Cached data — offline)" : ""} · Click to configure location`,
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "shrink-0", children: getWeatherIcon(weather.conditionCode) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-[#FFFFFF] text-xs sm:text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: settings.temperatureUnit === "F" ? `${weather.temperatureFahrenheit}°F` : `${weather.temperatureCelsius}°C` }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/60", children: "•" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-100 font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: weather.condition }),
-            weather.isStale && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] bg-amber-500/35 text-amber-100 px-2 py-0.5 rounded-full font-bold border border-amber-400/50", children: "Offline" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-slate-200 font-semibold hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { className: "w-3.5 h-3.5 text-emerald-400 drop-shadow" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "shrink-0 text-slate-300", children: getWeatherIcon(weather.conditionCode) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold text-[#FFFFFF] text-xs sm:text-sm", children: settings.temperatureUnit === "F" ? `${weather.temperatureFahrenheit}°F` : `${weather.temperatureCelsius}°C` }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/40", children: "•" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-300 font-medium", children: weather.condition }),
+            weather.isStale && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] bg-amber-500/20 text-amber-200 px-2 py-0.5 rounded-full font-medium border border-amber-500/30", children: "Offline" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-slate-400 font-normal hidden sm:inline-flex items-center gap-1.5", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { className: "w-3.5 h-3.5 text-slate-400" }),
               weather.location
             ] })
           ]
@@ -10468,21 +10465,21 @@ const AmbientClockWeather = ({
               onOpenSettings();
             }
           },
-          className: "group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs text-white",
+          className: "group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/20 transition-all text-xs text-white",
           title: settings.weatherLocation?.trim() ? `Click to retry weather lookup for ${settings.weatherLocation}` : "Configure weather location (Open-Meteo)",
           children: [
-            weatherLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-3.5 h-3.5 text-emerald-400 animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "w-3.5 h-3.5 text-white" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold text-slate-100", children: weatherLoading ? settings.weatherLocation?.trim() ? `Updating weather for ${settings.weatherLocation}...` : "Updating weather..." : !settings.weatherLocation?.trim() ? "No location set · Configure location" : `Weather unavailable for ${settings.weatherLocation} · Tap to retry` })
+            weatherLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-3.5 h-3.5 text-slate-400 animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "w-3.5 h-3.5 text-slate-400" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-normal text-slate-300", children: weatherLoading ? settings.weatherLocation?.trim() ? `Updating weather for ${settings.weatherLocation}...` : "Updating weather..." : !settings.weatherLocation?.trim() ? "No location set · Configure location" : `Weather unavailable for ${settings.weatherLocation} · Tap to retry` })
           ]
         }
       ) }),
       settings.showQuote && quote && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl ambient-pill-glass max-w-xl text-xs sm:text-sm select-none", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { className: "w-4 h-4 text-emerald-400 shrink-0 not-italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "truncate text-slate-100 font-medium italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { className: "w-3.5 h-3.5 text-slate-400 shrink-0 not-italic" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "truncate text-slate-300 font-normal italic", children: [
           "“",
           quote.text,
           "” ",
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "not-italic text-emerald-300 font-bold ml-1.5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "not-italic text-slate-400 font-medium ml-1.5", children: [
             "— ",
             quote.author
           ] })
@@ -10527,9 +10524,9 @@ const AmbientWatchesColumn = ({
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: "Ambient Watch Feed" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text", children: "Ambient Watch Feed" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-bold text-emerald-400 ambient-shadow-text", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-medium text-slate-400 ambient-shadow-text", children: [
         watches.length,
         " tracked"
       ] })
@@ -10540,35 +10537,35 @@ const AmbientWatchesColumn = ({
         "div",
         {
           style: glassStyle,
-          className: "p-4 rounded-2xl ambient-card-glass-overdue text-white space-y-2.5 transition-all hover:border-rose-400/60",
+          className: "p-4 rounded-2xl ambient-card-glass-overdue text-white space-y-2.5 transition-all hover:border-rose-400/50",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 min-w-0", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-lg shrink-0 drop-shadow", children: emoji }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-bold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]", children: w.name }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] text-rose-200 font-bold", children: "Requires Attention" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-semibold text-white truncate drop-shadow", children: w.name }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] text-rose-300/90 font-medium", children: "Requires Attention" })
                 ] })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/30 text-rose-100 border border-rose-400/40", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-rose-500/15 text-rose-300 border border-rose-500/25", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(CircleAlert, { className: "w-3 h-3" }),
                 "Alert"
               ] })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-100 leading-relaxed font-normal bg-white/10 p-2.5 rounded-xl border border-white/20", children: w.text }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-300 leading-relaxed font-normal bg-black/25 p-2.5 rounded-xl border border-white/5", children: w.text }),
             w.steps > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-[11px] text-slate-200 font-medium", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-[11px] text-slate-400 font-medium", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Stage" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-semibold text-white", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-medium text-slate-200", children: [
                   w.step,
                   " of ",
                   w.steps
                 ] })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-1.5 bg-white/25 rounded-full overflow-hidden flex gap-0.5", children: Array.from({ length: w.steps }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-1.5 bg-white/10 rounded-full overflow-hidden flex gap-0.5", children: Array.from({ length: w.steps }).map((_, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
                 {
-                  className: `h-full flex-1 ${i < w.step ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" : "bg-white/15"}`
+                  className: `h-full flex-1 ${i < w.step ? "bg-rose-500/80" : "bg-white/10"}`
                 },
                 i
               )) })
@@ -10579,7 +10576,7 @@ const AmbientWatchesColumn = ({
                 type: "button",
                 onClick: () => handleOpenUrl(w.url),
                 "aria-label": `Review details for ${w.name}`,
-                className: "inline-flex items-center gap-1.5 text-xs text-white/90 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1.5 py-0.5",
+                className: "inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1.5 py-0.5",
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Review Details" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { className: "w-3.5 h-3.5", "aria-hidden": "true" })
@@ -10597,20 +10594,20 @@ const AmbientWatchesColumn = ({
         "div",
         {
           style: glassStyle,
-          className: "p-3.5 rounded-2xl ambient-card-glass text-white space-y-2 hover:border-white/25 transition-all",
+          className: "p-3.5 rounded-2xl ambient-card-glass text-white space-y-2 hover:border-white/15 transition-all",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 min-w-0", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base shrink-0 drop-shadow", children: emoji }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-semibold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]", children: w.name })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-semibold text-white truncate drop-shadow", children: w.name })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/25 text-emerald-200 border border-emerald-400/35", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/25", children: [
                 w.state === "pending" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3 h-3" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { className: "w-3 h-3" }),
                 w.state === "pending" ? "Pending" : "Watching"
               ] })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-200 line-clamp-2 leading-relaxed", children: w.quoted ? `“${w.text}”` : w.text }),
-            w.steps > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between text-[10px] text-slate-300 font-medium pt-0.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-300 line-clamp-2 leading-relaxed", children: w.quoted ? `“${w.text}”` : w.text }),
+            w.steps > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between text-[10px] text-slate-400 font-medium pt-0.5", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
                 "Stage ",
                 w.step,
@@ -10623,7 +10620,7 @@ const AmbientWatchesColumn = ({
                   type: "button",
                   onClick: () => handleOpenUrl(w.url),
                   "aria-label": `Open ${w.name} in browser`,
-                  className: "text-emerald-300 hover:text-emerald-200 font-semibold transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1",
+                  className: "text-slate-400 hover:text-white font-medium transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1",
                   children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Open" }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { className: "w-2.5 h-2.5", "aria-hidden": "true" })
@@ -10743,7 +10740,7 @@ const AmbientTasksColumn = ({
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col space-y-2.5 max-w-sm w-full animate-fadeIn select-none", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl ambient-header-glass w-fit", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SquareCheckBig, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: "Pending Tasks" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text", children: "Pending Tasks" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
@@ -10752,7 +10749,7 @@ const AmbientTasksColumn = ({
           className: "p-3.5 rounded-2xl ambient-card-glass text-white text-xs flex items-center gap-2.5 shadow-lg",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "w-4 h-4 text-emerald-400 shrink-0 drop-shadow" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[#FFFFFF] font-semibold text-xs sm:text-sm", children: "No pending tasks" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-300 font-medium text-xs sm:text-sm", children: "No pending tasks" })
           ]
         }
       )
@@ -10762,9 +10759,9 @@ const AmbientTasksColumn = ({
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SquareCheckBig, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: isScreensaver ? "Pending Tasks" : "Focus & Reminders" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-slate-200 ambient-shadow-text", children: isScreensaver ? "Pending Tasks" : "Focus & Reminders" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-bold text-emerald-400 ambient-shadow-text", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-medium text-slate-400 ambient-shadow-text", children: [
         tasks.length,
         " active"
       ] })
@@ -10778,19 +10775,19 @@ const AmbientTasksColumn = ({
           className: `p-3.5 rounded-2xl transition-all ${due.isOverdue ? "ambient-card-glass-overdue" : due.isToday ? "ambient-card-glass-today" : "ambient-card-glass"}`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-bold text-[#FFFFFF] leading-snug line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: task.title }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-semibold text-white leading-snug line-clamp-1 drop-shadow", children: task.title }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "span",
                 {
-                  className: `text-[10px] px-2 py-0.5 rounded-full capitalize font-bold tracking-wide shrink-0 ${task.priority === "high" ? "bg-rose-500/40 text-white border border-rose-400/60 shadow-sm" : task.priority === "medium" ? "bg-amber-500/40 text-white border border-amber-400/60 shadow-sm" : "bg-sky-500/40 text-white border border-sky-400/60 shadow-sm"}`,
+                  className: `text-[10px] px-2 py-0.5 rounded-full capitalize font-medium tracking-wide shrink-0 ${task.priority === "high" ? "bg-rose-500/15 text-rose-300 border border-rose-500/25" : task.priority === "medium" ? "bg-amber-500/15 text-amber-300 border border-amber-500/25" : "bg-slate-700/25 text-slate-300 border border-slate-600/25"}`,
                   children: task.priority
                 }
               )
             ] }),
-            !isScreensaver && task.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-200 line-clamp-1 leading-normal font-normal", children: task.description }),
-            task.dueDate && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] font-semibold pt-0.5", children: [
-              due.isOverdue ? /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3.5 h-3.5 text-slate-300 shrink-0 drop-shadow" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: due.isOverdue ? "text-rose-200 font-bold" : "text-slate-200 font-semibold", children: due.label })
+            !isScreensaver && task.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-slate-400 line-clamp-1 leading-normal font-normal pt-0.5", children: task.description }),
+            task.dueDate && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] font-medium pt-0.5", children: [
+              due.isOverdue ? /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3.5 h-3.5 text-slate-400 shrink-0 drop-shadow" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: due.isOverdue ? "text-rose-300 font-medium" : "text-slate-400 font-normal", children: due.label })
             ] })
           ]
         },
@@ -10817,7 +10814,7 @@ const AmbientControls = ({
     "div",
     {
       className: `fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${visible ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 p-1.5 px-2.5 rounded-full bg-slate-900/50 backdrop-blur-2xl border border-white/25 text-white shadow-2xl transition-all", children: [
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 p-1.5 px-2.5 rounded-full bg-slate-950/60 backdrop-blur-xl border border-white/10 text-white shadow-xl transition-all", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
