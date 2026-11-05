@@ -56,8 +56,16 @@ setTimeout(() => {
   } else {
     console.log('[INFO] Electron process ran for 3.5s without crash.')
   }
+  try {
+    const { execSync } = require('child_process')
+    if (child.pid) {
+      execSync(`taskkill /pid ${child.pid} /t /f`, { stdio: 'ignore' })
+    }
+  } catch {}
   child.kill()
-  console.log('[Smoke Test] Smoke test complete. Code: 0')
-  process.exit(0)
+  setTimeout(() => {
+    console.log('[Smoke Test] Smoke test complete. Code: 0')
+    process.exit(0)
+  }, 500)
 }, 3500)
 

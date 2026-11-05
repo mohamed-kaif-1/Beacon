@@ -26,9 +26,8 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
   animationVariant = 'a'
 }) => {
   const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({})
-  const [imageLoadedMap, setImageLoadedMap] = useState<Record<string, boolean>>({})
 
-  // Preload next wallpaper image to eliminate transition pop-in
+  // Preload next wallpaper image to eliminate transition latency
   useEffect(() => {
     if (!nextWallpaper?.url) return
     const isWebOrFile =
@@ -46,10 +45,6 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
 
   const handleImageError = (id: string): void => {
     setImageErrorMap((prev) => ({ ...prev, [id]: true }))
-  }
-
-  const handleImageLoad = (id: string): void => {
-    setImageLoadedMap((prev) => ({ ...prev, [id]: true }))
   }
 
   const getAnimationClass = (variant: KenBurnsVariant): string => {
@@ -72,42 +67,41 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
     variant: KenBurnsVariant
   ): React.ReactNode => {
     const hasError = imageErrorMap[wallpaper.id]
-    const isLoaded = imageLoadedMap[wallpaper.id]
+    // If full-resolution URL had an error, fallback to thumbnail before falling back to vector
+    const effectiveUrl = hasError && wallpaper.thumbnailUrl ? wallpaper.thumbnailUrl : wallpaper.url
     const animClass = getAnimationClass(variant)
 
     const isImageSource =
-      Boolean(wallpaper.url) &&
-      (wallpaper.url.startsWith('beacon-wallpaper://') ||
-        wallpaper.url.startsWith('helm-wallpaper://') ||
-        wallpaper.url.startsWith('http://') ||
-        wallpaper.url.startsWith('https://') ||
-        wallpaper.url.startsWith('data:') ||
-        wallpaper.url.startsWith('file:') ||
+      Boolean(effectiveUrl) &&
+      (effectiveUrl.startsWith('beacon-wallpaper://') ||
+        effectiveUrl.startsWith('helm-wallpaper://') ||
+        effectiveUrl.startsWith('http://') ||
+        effectiveUrl.startsWith('https://') ||
+        effectiveUrl.startsWith('data:') ||
+        effectiveUrl.startsWith('file:') ||
         wallpaper.type === 'file')
 
     return (
       <div className={`absolute inset-0 w-full h-full overflow-hidden ${animClass}`}>
-        {/* Procedural vector background (always present as instant foundation & offline fallback) */}
+        {/* Procedural vector foundation (always active as underlying safety surface) */}
         <div className="absolute inset-0 w-full h-full">
           <BuiltInWallpaperView id={wallpaper.id} />
         </div>
 
-        {/* High-resolution photographic overlay when available */}
-        {isImageSource && !hasError && (
+        {/* High-resolution photographic overlay */}
+        {isImageSource && (
           <img
-            ref={(el) => {
-              if (el && el.complete && el.naturalWidth > 0 && !imageLoadedMap[wallpaper.id]) {
-                handleImageLoad(wallpaper.id)
-              }
-            }}
-            src={wallpaper.url}
+            src={effectiveUrl}
             alt={wallpaper.name}
             loading="eager"
-            onLoad={() => handleImageLoad(wallpaper.id)}
-            onError={() => handleImageError(wallpaper.id)}
-            className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
+            decoding="async"
+            onError={() => {
+              if (!hasError) handleImageError(wallpaper.id)
+            }}
+            className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none opacity-100 transition-opacity duration-300"
+            style={{
+              filter: 'brightness(1.04) contrast(1.02)'
+            }}
           />
         )}
       </div>
@@ -119,19 +113,18 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
     animationVariant === 'a' ? 'b' : animationVariant === 'b' ? 'c' : animationVariant === 'c' ? 'd' : 'a'
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black select-none pointer-events-none">
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#070b16] select-none pointer-events-none">
       {/* Active Layer (base layer, always visible and animating) */}
       <div className="absolute inset-0 w-full h-full z-0">
         {renderWallpaperLayer(currentWallpaper, animationVariant)}
       </div>
 
-      {/* Previous Layer (top layer during transition, cross-fades out smoothly) */}
+      {/* Previous Layer (top layer during transition, cross-fades out smoothly with keyframe animation) */}
       {previousWallpaper && isTransitioning && (
         <div
-          className="absolute inset-0 w-full h-full z-10 transition-opacity ease-in-out"
+          className="absolute inset-0 w-full h-full z-10 pointer-events-none"
           style={{
-            opacity: 0,
-            transitionDuration: `${transitionDuration}s`
+            animation: `screensaverFadeOutLayer ${transitionDuration}s ease-in-out forwards`
           }}
         >
           {renderWallpaperLayer(previousWallpaper, previousVariant)}
@@ -142,7 +135,7 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
       <div
         className="absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500"
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.12, 0), 0.25)})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.10, 0), 0.20)})`
         }}
       />
 

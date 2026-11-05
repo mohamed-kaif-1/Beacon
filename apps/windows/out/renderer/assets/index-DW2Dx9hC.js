@@ -10116,38 +10116,46 @@ const SettingsPage = ({ onOpenOnboarding }) => {
 };
 const BuiltInWallpaperView = ({ id }) => {
   if (id.startsWith("space-")) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#030408] overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-tr from-[#050814] via-[#090b1e] to-[#04060c] opacity-90" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-indigo-950/20 rounded-full blur-[120px]" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-violet-950/15 rounded-full blur-[100px]" })
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#070b1a] overflow-hidden", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-tr from-[#060a17] via-[#0d1428] to-[#080d1e] opacity-95" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 left-1/3 w-[650px] h-[650px] bg-indigo-900/25 rounded-full blur-[130px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-1/3 right-1/4 w-[550px] h-[550px] bg-violet-900/20 rounded-full blur-[110px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-950/20 rounded-full blur-[140px]" })
     ] });
   }
   if (id.startsWith("aurora-")) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#020509] overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#030911] via-[#040c14] to-[#020408] opacity-95" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -top-24 left-1/4 w-[700px] h-[500px] bg-emerald-950/20 rounded-full blur-[120px]" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/3 right-1/4 w-[600px] h-[400px] bg-teal-950/15 rounded-full blur-[110px]" })
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#050e17] overflow-hidden", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#06141d] via-[#081a24] to-[#040c14] opacity-95" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -top-24 left-1/4 w-[750px] h-[550px] bg-emerald-900/25 rounded-full blur-[130px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/3 right-1/4 w-[650px] h-[450px] bg-teal-900/20 rounded-full blur-[120px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-1/4 left-1/3 w-[500px] h-[300px] bg-cyan-950/15 rounded-full blur-[100px]" })
     ] });
   }
   if (id.startsWith("night-")) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#020409] overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#040713] via-[#060a1a] to-[#02040a] opacity-95" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-950/15 rounded-full blur-[130px]" })
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#060d1a] overflow-hidden", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#071224] via-[#09172c] to-[#050b16] opacity-95" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-blue-900/20 rounded-full blur-[140px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-indigo-950/25 rounded-full blur-[100px]" })
     ] });
   }
   if (id.startsWith("campfire-")) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#040306] overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#04050c] via-[#08070d] to-[#050306] opacity-95" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-12 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-amber-950/25 rounded-full blur-[80px]" })
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#080712] overflow-hidden", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#090918] via-[#100d1c] to-[#080612] opacity-95" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-12 left-1/2 -translate-x-1/2 w-[400px] h-[250px] bg-amber-900/30 rounded-full blur-[90px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 right-1/3 w-[500px] h-[400px] bg-purple-950/15 rounded-full blur-[120px]" })
     ] });
   }
   if (id.startsWith("moonlit-")) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#03050c] overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#050818] via-[#080c20] to-[#03050d] opacity-95" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-16 right-1/4 w-[500px] h-[500px] bg-indigo-900/15 rounded-full blur-[110px]" })
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#060818] overflow-hidden", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#080d24] via-[#0b122e] to-[#050714] opacity-95" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-16 right-1/4 w-[550px] h-[550px] bg-indigo-900/25 rounded-full blur-[120px]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/3 left-1/4 w-[450px] h-[350px] bg-violet-950/20 rounded-full blur-[110px]" })
     ] });
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full bg-[#030408] overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#040714] via-[#080b1c] to-[#030408]" }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full bg-[#070b18] overflow-hidden", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-gradient-to-b from-[#080e22] via-[#0c142c] to-[#060a16]" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-indigo-950/20 rounded-full blur-[120px]" })
+  ] });
 };
 const KenBurnsSlideshow = ({
   currentWallpaper,
@@ -10160,7 +10168,6 @@ const KenBurnsSlideshow = ({
   animationVariant = "a"
 }) => {
   const [imageErrorMap, setImageErrorMap] = reactExports.useState({});
-  const [imageLoadedMap, setImageLoadedMap] = reactExports.useState({});
   reactExports.useEffect(() => {
     if (!nextWallpaper?.url) return;
     const isWebOrFile = nextWallpaper.url.startsWith("http://") || nextWallpaper.url.startsWith("https://") || nextWallpaper.url.startsWith("beacon-wallpaper://") || nextWallpaper.url.startsWith("helm-wallpaper://") || nextWallpaper.url.startsWith("data:");
@@ -10171,9 +10178,6 @@ const KenBurnsSlideshow = ({
   }, [nextWallpaper]);
   const handleImageError = (id) => {
     setImageErrorMap((prev) => ({ ...prev, [id]: true }));
-  };
-  const handleImageLoad = (id) => {
-    setImageLoadedMap((prev) => ({ ...prev, [id]: true }));
   };
   const getAnimationClass = (variant) => {
     if (!kenBurnsEnabled) return "";
@@ -10191,39 +10195,38 @@ const KenBurnsSlideshow = ({
   };
   const renderWallpaperLayer = (wallpaper, variant) => {
     const hasError = imageErrorMap[wallpaper.id];
-    const isLoaded = imageLoadedMap[wallpaper.id];
+    const effectiveUrl = hasError && wallpaper.thumbnailUrl ? wallpaper.thumbnailUrl : wallpaper.url;
     const animClass = getAnimationClass(variant);
-    const isImageSource = Boolean(wallpaper.url) && (wallpaper.url.startsWith("beacon-wallpaper://") || wallpaper.url.startsWith("helm-wallpaper://") || wallpaper.url.startsWith("http://") || wallpaper.url.startsWith("https://") || wallpaper.url.startsWith("data:") || wallpaper.url.startsWith("file:") || wallpaper.type === "file");
+    const isImageSource = Boolean(effectiveUrl) && (effectiveUrl.startsWith("beacon-wallpaper://") || effectiveUrl.startsWith("helm-wallpaper://") || effectiveUrl.startsWith("http://") || effectiveUrl.startsWith("https://") || effectiveUrl.startsWith("data:") || effectiveUrl.startsWith("file:") || wallpaper.type === "file");
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `absolute inset-0 w-full h-full overflow-hidden ${animClass}`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full", children: /* @__PURE__ */ jsxRuntimeExports.jsx(BuiltInWallpaperView, { id: wallpaper.id }) }),
-      isImageSource && !hasError && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      isImageSource && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
         {
-          ref: (el) => {
-            if (el && el.complete && el.naturalWidth > 0 && !imageLoadedMap[wallpaper.id]) {
-              handleImageLoad(wallpaper.id);
-            }
-          },
-          src: wallpaper.url,
+          src: effectiveUrl,
           alt: wallpaper.name,
           loading: "eager",
-          onLoad: () => handleImageLoad(wallpaper.id),
-          onError: () => handleImageError(wallpaper.id),
-          className: `absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`
+          decoding: "async",
+          onError: () => {
+            if (!hasError) handleImageError(wallpaper.id);
+          },
+          className: "absolute inset-0 w-full h-full object-cover object-center pointer-events-none opacity-100 transition-opacity duration-300",
+          style: {
+            filter: "brightness(1.04) contrast(1.02)"
+          }
         }
       )
     ] });
   };
   const previousVariant = animationVariant === "a" ? "b" : animationVariant === "b" ? "c" : animationVariant === "c" ? "d" : "a";
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full overflow-hidden bg-black select-none pointer-events-none", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute inset-0 w-full h-full overflow-hidden bg-[#070b16] select-none pointer-events-none", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full z-0", children: renderWallpaperLayer(currentWallpaper, animationVariant) }),
     previousWallpaper && isTransitioning && /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
-        className: "absolute inset-0 w-full h-full z-10 transition-opacity ease-in-out",
+        className: "absolute inset-0 w-full h-full z-10 pointer-events-none",
         style: {
-          opacity: 0,
-          transitionDuration: `${transitionDuration}s`
+          animation: `screensaverFadeOutLayer ${transitionDuration}s ease-in-out forwards`
         },
         children: renderWallpaperLayer(previousWallpaper, previousVariant)
       }
@@ -10233,7 +10236,7 @@ const KenBurnsSlideshow = ({
       {
         className: "absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500",
         style: {
-          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.12, 0), 0.25)})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.1, 0), 0.2)})`
         }
       }
     ),
@@ -11771,20 +11774,22 @@ const AmbientBoardPage = ({
     if (isScreensaver) {
       const notify = window.beacon?.notifyScreensaverReady || window.helm?.notifyScreensaverReady;
       if (notify) {
-        let rafId1;
-        let rafId2;
-        let cancelled = false;
-        rafId1 = requestAnimationFrame(() => {
-          if (cancelled) return;
-          rafId2 = requestAnimationFrame(() => {
-            if (cancelled) return;
-            notify().catch(console.error);
+        let settled = false;
+        const done = () => {
+          if (settled) return;
+          settled = true;
+          notify().catch(console.error);
+        };
+        const timer = setTimeout(done, 60);
+        let rafId1 = requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            done();
           });
         });
         return () => {
-          cancelled = true;
-          if (rafId1) cancelAnimationFrame(rafId1);
-          if (rafId2) cancelAnimationFrame(rafId2);
+          settled = true;
+          clearTimeout(timer);
+          cancelAnimationFrame(rafId1);
         };
       }
     }

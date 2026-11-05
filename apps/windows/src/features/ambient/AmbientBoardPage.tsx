@@ -129,22 +129,23 @@ export const AmbientBoardPage: React.FC<AmbientBoardPageProps> = ({
     if (isScreensaver) {
       const notify = window.beacon?.notifyScreensaverReady || window.helm?.notifyScreensaverReady
       if (notify) {
-        // Double requestAnimationFrame ensures Chromium has computed layout, painted to the raster surface,
-        // and presented the composited frame to the GPU swapchain backbuffer before Electron reveals the window.
-        let rafId1: number
-        let rafId2: number
-        let cancelled = false
-        rafId1 = requestAnimationFrame(() => {
-          if (cancelled) return
-          rafId2 = requestAnimationFrame(() => {
-            if (cancelled) return
-            notify().catch(console.error)
+        let settled = false
+        const done = (): void => {
+          if (settled) return
+          settled = true
+          notify().catch(console.error)
+        }
+        // Safety timeout race ensures zero-flash reveal even if Chromium throttles rAF on inactive windows
+        const timer = setTimeout(done, 60)
+        let rafId1 = requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            done()
           })
         })
         return () => {
-          cancelled = true
-          if (rafId1) cancelAnimationFrame(rafId1)
-          if (rafId2) cancelAnimationFrame(rafId2)
+          settled = true
+          clearTimeout(timer)
+          cancelAnimationFrame(rafId1)
         }
       }
     }

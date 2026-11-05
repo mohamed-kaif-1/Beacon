@@ -239,6 +239,16 @@
   will-change: transform;
 }
 
+/* Cross-fade transition between wallpaper slides */
+@keyframes screensaverFadeOutLayer {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* Reduced Motion Support (Accessibility & User Preference) */
 @media (prefers-reduced-motion: reduce) {
   *,

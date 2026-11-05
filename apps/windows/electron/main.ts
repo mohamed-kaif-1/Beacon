@@ -249,6 +249,17 @@ function createWindow(): BrowserWindow {
     return { action: 'deny' }
   })
 
+  // Diagnostic logging: forward renderer errors and ambient events to logger
+  mainWindow.webContents.on('console-message', (_event, level, message) => {
+    if (level >= 3) {
+      logger.error('Renderer', message)
+    } else if (level === 2) {
+      logger.warn('Renderer', message)
+    } else if (message.includes('Diagnostic') || message.includes('Ambient') || message.includes('Wallpaper')) {
+      logger.info('Renderer', message)
+    }
+  })
+
   // Load the React renderer
   if (process.env['ELECTRON_RENDERER_URL']) {
     const targetUrl = isScreensaverLaunch
@@ -272,15 +283,20 @@ app.whenReady().then(async () => {
 
   // Helper to locate local built-in wallpaper assets in development and production
   const getBuiltinWallpapersDir = (): string => {
-    if (process.resourcesPath) {
-      const prodPath1 = path.join(process.resourcesPath, 'wallpapers')
-      if (fs.existsSync(prodPath1)) return prodPath1
-      const prodPath2 = path.join(process.resourcesPath, 'resources/wallpapers')
-      if (fs.existsSync(prodPath2)) return prodPath2
+    const candidates = [
+      process.resourcesPath ? path.join(process.resourcesPath, 'wallpapers') : null,
+      process.resourcesPath ? path.join(process.resourcesPath, 'resources/wallpapers') : null,
+      path.join(app.getAppPath(), 'resources/wallpapers'),
+      path.join(__dirname, '../../resources/wallpapers'),
+      path.join(__dirname, '../resources/wallpapers'),
+      path.join(process.cwd(), 'apps/windows/resources/wallpapers'),
+      path.join(process.cwd(), 'resources/wallpapers')
+    ].filter(Boolean) as string[]
+
+    for (const cand of candidates) {
+      if (fs.existsSync(cand)) return cand
     }
-    const devPath = path.join(__dirname, '../../resources/wallpapers')
-    if (fs.existsSync(devPath)) return devPath
-    return devPath
+    return path.join(__dirname, '../../resources/wallpapers')
   }
 
   // Register custom protocol handler for local wallpaper files (dual: beacon-wallpaper & helm-wallpaper)
@@ -306,13 +322,19 @@ app.whenReady().then(async () => {
       }
 
       if (!fs.existsSync(decodedPath)) {
-        console.warn('[BEACON Protocol] Wallpaper file not found on disk:', decodedPath)
+        logger.warn('Protocol', `Wallpaper file not found on disk: "${decodedPath}"`)
+        // Fallback: if requesting full resolution image and it's missing, check thumbnails directory
+        const thumbCandidate = path.join(getBuiltinWallpapersDir(), 'thumbnails', path.basename(decodedPath))
+        if (fs.existsSync(thumbCandidate)) {
+          logger.info('Protocol', `Serving thumbnail fallback for "${decodedPath}"`)
+          return net.fetch(pathToFileURL(thumbCandidate).toString())
+        }
         return new Response('File not found', { status: 404 })
       }
 
       return net.fetch(pathToFileURL(decodedPath).toString())
-    } catch (err) {
-      console.error('[BEACON Protocol] Error serving wallpaper:', err)
+    } catch (err: any) {
+      logger.error('Protocol', `Error serving wallpaper: ${err?.message}`, err?.stack)
       return new Response('Not found', { status: 404 })
     }
   }

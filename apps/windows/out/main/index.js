@@ -3221,6 +3221,15 @@ function createWindow() {
     }
     return { action: "deny" };
   });
+  mainWindow.webContents.on("console-message", (_event, level, message) => {
+    if (level >= 3) {
+      logger.error("Renderer", message);
+    } else if (level === 2) {
+      logger.warn("Renderer", message);
+    } else if (message.includes("Diagnostic") || message.includes("Ambient") || message.includes("Wallpaper")) {
+      logger.info("Renderer", message);
+    }
+  });
   if (process.env["ELECTRON_RENDERER_URL"]) {
     const targetUrl = isScreensaverLaunch ? `${process.env["ELECTRON_RENDERER_URL"]}#screensaver` : process.env["ELECTRON_RENDERER_URL"];
     mainWindow.loadURL(targetUrl);
@@ -3236,15 +3245,19 @@ electron.app.whenReady().then(async () => {
   logScreensaverEvent("Electron ready: initializing core runtime services");
   console.log("[BEACON Main] Application ready. Initializing core services...");
   const getBuiltinWallpapersDir = () => {
-    if (process.resourcesPath) {
-      const prodPath1 = path.join(process.resourcesPath, "wallpapers");
-      if (fs.existsSync(prodPath1)) return prodPath1;
-      const prodPath2 = path.join(process.resourcesPath, "resources/wallpapers");
-      if (fs.existsSync(prodPath2)) return prodPath2;
+    const candidates = [
+      process.resourcesPath ? path.join(process.resourcesPath, "wallpapers") : null,
+      process.resourcesPath ? path.join(process.resourcesPath, "resources/wallpapers") : null,
+      path.join(electron.app.getAppPath(), "resources/wallpapers"),
+      path.join(__dirname, "../../resources/wallpapers"),
+      path.join(__dirname, "../resources/wallpapers"),
+      path.join(process.cwd(), "apps/windows/resources/wallpapers"),
+      path.join(process.cwd(), "resources/wallpapers")
+    ].filter(Boolean);
+    for (const cand of candidates) {
+      if (fs.existsSync(cand)) return cand;
     }
-    const devPath = path.join(__dirname, "../../resources/wallpapers");
-    if (fs.existsSync(devPath)) return devPath;
-    return devPath;
+    return path.join(__dirname, "../../resources/wallpapers");
   };
   const handleWallpaperRequest = (request) => {
     try {
@@ -3262,12 +3275,17 @@ electron.app.whenReady().then(async () => {
         return new Response("Forbidden file type", { status: 403 });
       }
       if (!fs.existsSync(decodedPath)) {
-        console.warn("[BEACON Protocol] Wallpaper file not found on disk:", decodedPath);
+        logger.warn("Protocol", `Wallpaper file not found on disk: "${decodedPath}"`);
+        const thumbCandidate = path.join(getBuiltinWallpapersDir(), "thumbnails", path.basename(decodedPath));
+        if (fs.existsSync(thumbCandidate)) {
+          logger.info("Protocol", `Serving thumbnail fallback for "${decodedPath}"`);
+          return electron.net.fetch(url.pathToFileURL(thumbCandidate).toString());
+        }
         return new Response("File not found", { status: 404 });
       }
       return electron.net.fetch(url.pathToFileURL(decodedPath).toString());
     } catch (err) {
-      console.error("[BEACON Protocol] Error serving wallpaper:", err);
+      logger.error("Protocol", `Error serving wallpaper: ${err?.message}`, err?.stack);
       return new Response("Not found", { status: 404 });
     }
   };
