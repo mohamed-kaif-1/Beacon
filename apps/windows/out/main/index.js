@@ -303,7 +303,7 @@ const DEFAULT_AMBIENT_SETTINGS = {
   showTasks: true,
   showQuote: true,
   frostedGlassBlur: 16,
-  backgroundDim: 0.35
+  backgroundDim: 0.1
 };
 const DEFAULT_GENERAL_SETTINGS = {
   launchAtStartup: false,
@@ -383,7 +383,7 @@ function validateAndMigrateSettings(raw) {
     showTasks: typeof ambientSrc.showTasks === "boolean" ? ambientSrc.showTasks : DEFAULT_AMBIENT_SETTINGS.showTasks,
     showQuote: typeof ambientSrc.showQuote === "boolean" ? ambientSrc.showQuote : DEFAULT_AMBIENT_SETTINGS.showQuote,
     frostedGlassBlur: typeof ambientSrc.frostedGlassBlur === "number" && ambientSrc.frostedGlassBlur >= 0 ? ambientSrc.frostedGlassBlur : DEFAULT_AMBIENT_SETTINGS.frostedGlassBlur,
-    backgroundDim: typeof ambientSrc.backgroundDim === "number" && ambientSrc.backgroundDim >= 0 && ambientSrc.backgroundDim <= 1 ? ambientSrc.backgroundDim : DEFAULT_AMBIENT_SETTINGS.backgroundDim
+    backgroundDim: typeof ambientSrc.backgroundDim === "number" && ambientSrc.backgroundDim >= 0 && ambientSrc.backgroundDim <= 1 ? Math.min(ambientSrc.backgroundDim, 0.25) : DEFAULT_AMBIENT_SETTINGS.backgroundDim
   };
   const screensaverSrc = raw.screensaver && typeof raw.screensaver === "object" ? raw.screensaver : {};
   const screensaver = {

@@ -106,7 +106,7 @@ app.whenReady().then(async () => {
       showTasks: true,
       showQuote: true,
       frostedGlassBlur: 16,
-      backgroundDim: 0.35
+      backgroundDim: 0.10
     },
     screensaver: {
       enabled: true,

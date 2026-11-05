@@ -230,7 +230,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
             {settings.showDate && (
               <>
                 <span className="text-white/60 text-xs">•</span>
-                <span className="text-xs font-semibold text-[#FFFFFF] ambient-shadow-text">
+                <span className="text-xs font-semibold text-slate-200 ambient-shadow-text">
                   {dateStr}
                 </span>
               </>
@@ -258,7 +258,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
             </span>
             {ampmStr && (
               <span
-                className={`font-bold tracking-wider text-[#FFFFFF] uppercase ambient-shadow-text ml-1.5 ${
+                className={`font-bold tracking-wider text-slate-200 uppercase ambient-shadow-text ml-1.5 ${
                   isScreensaver ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl'
                 }`}
               >
@@ -289,7 +289,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                     : `${weather.temperatureCelsius}°C`}
                 </span>
                 <span className="text-white/60">•</span>
-                <span className="text-[#FFFFFF] font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <span className="text-slate-100 font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   {weather.condition}
                 </span>
                 {weather.isStale && (
@@ -297,7 +297,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                     Offline
                   </span>
                 )}
-                <span className="text-[#FFFFFF] font-semibold hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <span className="text-slate-200 font-semibold hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   <MapPin className="w-3.5 h-3.5 text-emerald-400 drop-shadow" />
                   {weather.location}
                 </span>
@@ -311,7 +311,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                     onOpenSettings()
                   }
                 }}
-                className="group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs text-[#FFFFFF]"
+                className="group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs text-white"
                 title={settings.weatherLocation?.trim() ? `Click to retry weather lookup for ${settings.weatherLocation}` : 'Configure weather location (Open-Meteo)'}
               >
                 {weatherLoading ? (
@@ -319,7 +319,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                 ) : (
                   <Cloud className="w-3.5 h-3.5 text-white" />
                 )}
-                <span className="font-semibold text-[#FFFFFF]">
+                <span className="font-semibold text-slate-100">
                   {weatherLoading
                     ? (settings.weatherLocation?.trim()
                         ? `Updating weather for ${settings.weatherLocation}...`
@@ -337,7 +337,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
         {settings.showQuote && quote && (
           <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl ambient-pill-glass max-w-xl text-xs sm:text-sm select-none">
             <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 not-italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
-            <span className="truncate text-[#FFFFFF] font-medium italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
+            <span className="truncate text-slate-100 font-medium italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
               “{quote.text}” <span className="not-italic text-emerald-300 font-bold ml-1.5">— {quote.author}</span>
             </span>
           </div>

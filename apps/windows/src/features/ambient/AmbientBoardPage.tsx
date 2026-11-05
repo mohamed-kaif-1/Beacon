@@ -38,7 +38,7 @@ const DEFAULT_SETTINGS: AmbientSettings = {
   showTasks: true,
   showQuote: true,
   frostedGlassBlur: 16,
-  backgroundDim: 0.35
+  backgroundDim: 0.10
 }
 
 export const AmbientBoardPage: React.FC<AmbientBoardPageProps> = ({
@@ -444,13 +444,13 @@ export const AmbientBoardPage: React.FC<AmbientBoardPageProps> = ({
         animationVariant={animVariant}
       />
 
-      {/* 1b. Directional Readability Scrims (light and subtle, protecting text zones without darkening wallpapers) */}
+      {/* 1b. Directional Readability Scrims (ultra-soft, leaving center 100% luminous) */}
       <div
-        className="absolute inset-x-0 top-0 h-1/3 z-[5] pointer-events-none bg-gradient-to-b from-black/35 via-black/10 to-transparent transition-opacity duration-500"
+        className="absolute inset-x-0 top-0 h-1/4 z-[5] pointer-events-none bg-gradient-to-b from-black/25 via-black/5 to-transparent transition-opacity duration-500"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-x-0 bottom-0 h-2/5 z-[5] pointer-events-none bg-gradient-to-t from-black/40 via-black/15 to-transparent transition-opacity duration-500"
+        className="absolute inset-x-0 bottom-0 h-1/4 z-[5] pointer-events-none bg-gradient-to-t from-black/30 via-black/10 to-transparent transition-opacity duration-500"
         aria-hidden="true"
       />
 

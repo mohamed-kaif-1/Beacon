@@ -174,19 +174,19 @@ export const AmbientTasksColumn: React.FC<AmbientTasksColumnProps> = ({
 
               {/* In screensaver mode: descriptions and notes are strictly omitted for privacy */}
               {!isScreensaver && task.description && (
-                <p className="text-xs text-[#FFFFFF]/85 line-clamp-1 leading-normal font-normal">
+                <p className="text-xs text-slate-200 line-clamp-1 leading-normal font-normal">
                   {task.description}
                 </p>
               )}
 
               {task.dueDate && (
-                <div className="flex items-center gap-1.5 text-[11px] text-[#FFFFFF] font-semibold pt-0.5">
+                <div className="flex items-center gap-1.5 text-[11px] font-semibold pt-0.5">
                   {due.isOverdue ? (
                     <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" />
                   ) : (
-                    <Clock className="w-3.5 h-3.5 text-white/70 shrink-0 drop-shadow" />
+                    <Clock className="w-3.5 h-3.5 text-slate-300 shrink-0 drop-shadow" />
                   )}
-                  <span className={due.isOverdue ? 'text-rose-200 font-bold' : 'text-[#FFFFFF] font-semibold'}>
+                  <span className={due.isOverdue ? 'text-rose-200 font-bold' : 'text-slate-200 font-semibold'}>
                     {due.label}
                   </span>
                 </div>

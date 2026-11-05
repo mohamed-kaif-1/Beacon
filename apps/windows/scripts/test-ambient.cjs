@@ -35,7 +35,7 @@ async function runAmbientTests() {
     showWatches: true,
     showQuote: true,
     frostedGlassBlur: 20,
-    backgroundDim: 0.4
+    backgroundDim: 0.10
   }
 
   // Write settings

@@ -109,7 +109,7 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
-              filter: 'brightness(1.16) contrast(1.05) saturate(1.12)'
+              filter: 'brightness(1.20) contrast(1.06) saturate(1.15)'
             }}
           />
         )}
@@ -145,15 +145,15 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
       <div
         className="absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500"
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${Math.min(backgroundDim * 0.45, 0.20)})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(Math.max(backgroundDim ?? 0.10, 0), 0.20)})`
         }}
       />
 
       {/* Subtle Edge-Shadow Vignette Gradients for Text Legibility (gentle and translucent, preserving wallpaper vibrancy) */}
-      <div className="absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/25 via-transparent to-black/30 pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/10 via-transparent to-black/10 pointer-events-none" />
 
       {/* Subtle Radial Vignette focusing eye towards center */}
-      <div className="absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_65%,rgba(0,0,0,0.15)_100%)]" />
+      <div className="absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_80%,rgba(0,0,0,0.06)_100%)]" />
     </div>
   )
 }

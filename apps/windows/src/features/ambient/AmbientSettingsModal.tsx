@@ -77,13 +77,13 @@ export const AmbientSettingsModal: React.FC<AmbientSettingsModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-md animate-fadeIn">
       <div
         ref={trapRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="ambient-modal-title"
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#12151f]/95 border border-white/15 text-white shadow-2xl p-6 space-y-6"
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#0f172a]/92 backdrop-blur-2xl border border-white/20 text-white shadow-2xl p-6 space-y-6"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
@@ -472,19 +472,24 @@ export const AmbientSettingsModal: React.FC<AmbientSettingsModalProps> = ({
 
           {/* Background Dim Slider */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs text-white/80">
+            <div className="flex justify-between text-xs text-slate-200 font-medium">
               <span>Background Dimming</span>
-              <span className="font-mono text-emerald-400">{Math.round(settings.backgroundDim * 100)}%</span>
+              <span className="font-mono text-emerald-400 font-bold">{Math.round(settings.backgroundDim * 100)}%</span>
             </div>
             <input
               type="range"
-              min="0.15"
-              max="0.65"
-              step="0.05"
+              min="0.00"
+              max="0.30"
+              step="0.02"
               value={settings.backgroundDim}
               onChange={(e) => onUpdateSettings({ backgroundDim: parseFloat(e.target.value) })}
-              className="w-full accent-emerald-500"
+              className="w-full accent-emerald-500 cursor-pointer"
             />
+            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+              <span>0% (Raw Photo)</span>
+              <span>10% (Default)</span>
+              <span>30% (Max Atmosphere)</span>
+            </div>
           </div>
         </div>
 

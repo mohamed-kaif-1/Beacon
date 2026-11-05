@@ -83,7 +83,7 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                       <h4 className="text-xs sm:text-sm font-bold text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]">
                         {w.name}
                       </h4>
-                      <span className="text-[11px] text-rose-200 font-semibold">
+                      <span className="text-[11px] text-rose-200 font-bold">
                         Requires Attention
                       </span>
                     </div>
@@ -94,24 +94,24 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                   </span>
                 </div>
 
-                <p className="text-xs text-white leading-relaxed font-normal bg-black/45 p-2.5 rounded-xl border border-white/10">
+                <p className="text-xs text-slate-100 leading-relaxed font-normal bg-white/10 p-2.5 rounded-xl border border-white/20">
                   {w.text}
                 </p>
 
                 {w.steps > 0 && (
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[11px] text-white/80 font-medium">
+                    <div className="flex justify-between text-[11px] text-slate-200 font-medium">
                       <span>Stage</span>
-                      <span>
+                      <span className="font-semibold text-white">
                         {w.step} of {w.steps}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-white/15 rounded-full overflow-hidden flex gap-0.5">
+                    <div className="w-full h-1.5 bg-white/25 rounded-full overflow-hidden flex gap-0.5">
                       {Array.from({ length: w.steps }).map((_, i) => (
                         <div
                           key={i}
                           className={`h-full flex-1 ${
-                            i < w.step ? 'bg-rose-500' : 'bg-white/10'
+                            i < w.step ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]' : 'bg-white/15'
                           }`}
                         />
                       ))}
@@ -162,12 +162,12 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                   </span>
                 </div>
 
-                <p className="text-xs text-white/85 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed">
                   {w.quoted ? `“${w.text}”` : w.text}
                 </p>
 
                 {w.steps > 0 && (
-                  <div className="flex items-center justify-between text-[10px] text-white/50 pt-0.5">
+                  <div className="flex items-center justify-between text-[10px] text-slate-300 font-medium pt-0.5">
                     <span>
                       Stage {w.step} of {w.steps}
                     </span>
@@ -176,7 +176,7 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
                         type="button"
                         onClick={() => handleOpenUrl(w.url)}
                         aria-label={`Open ${w.name} in browser`}
-                        className="hover:text-emerald-400 transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1"
+                        className="text-emerald-300 hover:text-emerald-200 font-semibold transition-colors flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:outline-none rounded px-1"
                       >
                         <span>Open</span>
                         <ExternalLink className="w-2.5 h-2.5" aria-hidden="true" />
@@ -194,13 +194,13 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
       {doneWatches.length > 0 && otherWatches.length === 0 && attentionWatches.length === 0 && (
         <div
           style={glassStyle}
-          className="p-3.5 rounded-xl bg-black/35 border border-white/10 text-white/80 shadow-md space-y-1.5"
+          className="p-3.5 rounded-2xl ambient-card-glass text-slate-200 shadow-md space-y-1.5"
         >
           <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
             <CheckCircle2 className="w-4 h-4" />
-            <span>Completed Watches</span>
+            <span className="font-bold text-white">Completed Watches</span>
           </div>
-          <p className="text-[11px] text-white/60">
+          <p className="text-[11px] text-slate-300">
             {doneWatches.length} items recently finished. All clear for now.
           </p>
         </div>
@@ -210,11 +210,11 @@ export const AmbientWatchesColumn: React.FC<AmbientWatchesColumnProps> = ({
       {watches.length === 0 && (
         <div
           style={glassStyle}
-          className="p-5 rounded-xl bg-black/30 border border-white/10 text-center space-y-2 text-white/80 shadow-lg"
+          className="p-5 rounded-2xl ambient-card-glass text-center space-y-2 text-slate-200 shadow-lg"
         >
           <ShieldCheck className="w-6 h-6 text-emerald-400 mx-auto" />
-          <h4 className="text-xs font-semibold text-white">All Clear</h4>
-          <p className="text-[11px] text-white/50 max-w-xs mx-auto leading-relaxed">
+          <h4 className="text-xs font-bold text-white">All Clear</h4>
+          <p className="text-[11px] text-slate-300 max-w-xs mx-auto leading-relaxed">
             No active browser watches or pending alerts. Pages monitored via Chrome, Edge, or Brave will surface here automatically.
           </p>
         </div>

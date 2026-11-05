@@ -34,7 +34,7 @@ export const DEFAULT_AMBIENT_SETTINGS: AmbientSettings = {
   showTasks: true,
   showQuote: true,
   frostedGlassBlur: 16,
-  backgroundDim: 0.35
+  backgroundDim: 0.10
 }
 
 export const DEFAULT_GENERAL_SETTINGS: GeneralSettings = {
@@ -201,7 +201,7 @@ export function validateAndMigrateSettings(raw: any): HelmSettings {
       typeof ambientSrc.backgroundDim === 'number' &&
       ambientSrc.backgroundDim >= 0 &&
       ambientSrc.backgroundDim <= 1
-        ? ambientSrc.backgroundDim
+        ? Math.min(ambientSrc.backgroundDim, 0.25)
         : DEFAULT_AMBIENT_SETTINGS.backgroundDim
   }
 
