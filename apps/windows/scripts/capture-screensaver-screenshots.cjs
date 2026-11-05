@@ -83,7 +83,35 @@ app.whenReady().then(async () => {
   ipcMain.handle('theme:get', () => 'dark')
   ipcMain.handle('theme:set', () => {})
   ipcMain.handle('onboarding:get', () => true)
-  ipcMain.handle('watches:get', () => [])
+  ipcMain.handle('watches:get', () => [
+    {
+      id: 'watch-1',
+      name: 'Package Tracking',
+      kind: 'delivery',
+      state: 'attention',
+      text: 'Out for delivery',
+      step: 3,
+      steps: 3
+    },
+    {
+      id: 'watch-2',
+      name: 'Passport Renewal',
+      kind: 'government',
+      state: 'attention',
+      text: 'Passport application in processing',
+      step: 2,
+      steps: 4
+    },
+    {
+      id: 'watch-3',
+      name: "TheFashion Global'26: Build what fast",
+      kind: 'product',
+      state: 'pending',
+      text: 'Still in review',
+      step: 1,
+      steps: 3
+    }
+  ])
 
   let currentWallpaperIndex = 0
   const getSettingsData = () => ({
@@ -102,7 +130,7 @@ app.whenReady().then(async () => {
       showWeather: true,
       weatherLocation: 'San Francisco, US',
       temperatureUnit: 'F',
-      showWatches: false,
+      showWatches: true,
       showTasks: true,
       showQuote: true,
       frostedGlassBlur: 16,
@@ -114,7 +142,7 @@ app.whenReady().then(async () => {
       showDate: true,
       showWeather: true,
       showTasks: true,
-      showWatches: false,
+      showWatches: true,
       showQuote: true,
       timeoutMinutes: 5,
       exitOnMouseMove: true
@@ -125,18 +153,18 @@ app.whenReady().then(async () => {
   ipcMain.handle('ambient:get-settings', () => getSettingsData().ambient)
 
   ipcMain.handle('weather:get', () => ({
-    location: 'San Francisco',
-    temperatureCelsius: 16,
-    temperatureFahrenheit: 61,
-    condition: 'Clear Night',
-    conditionCode: 'clear',
+    location: 'Chennai, Tamil Nadu, India',
+    temperatureCelsius: 27,
+    temperatureFahrenheit: 81,
+    condition: 'Overcast',
+    conditionCode: 'cloudy',
     lastUpdated: Date.now(),
     isStale: false
   }))
 
   ipcMain.handle('productivity:summary-get', () => ({
     todayTasks: [
-      { id: '1', title: 'Deep Work: Finalize core system architecture', status: 'pending', priority: 'high', dueDate: Date.now() - 3600000 },
+      { id: '1', title: 'Learn Beacon: About Every Tools we have done', status: 'pending', priority: 'high', dueDate: Date.now() - 3600000 },
       { id: '2', title: 'Prepare brand release package & assets', status: 'pending', priority: 'medium', dueDate: Date.now() + 7200000 }
     ],
     upcomingTasks: [
