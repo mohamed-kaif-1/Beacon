@@ -80,8 +80,8 @@ assert(watchesContent.includes('ambient-card-glass-overdue'), 'Watches column ap
 console.log('\n[Test 4] Verifying Directional Readability Scrims in AmbientBoardPage.tsx...')
 const boardPageContent = fs.readFileSync(boardPagePath, 'utf-8')
 
-assert(boardPageContent.includes('from-black/80 via-black/40 to-transparent'), 'AmbientBoardPage contains top directional readability scrim')
-assert(boardPageContent.includes('from-black/80 via-black/35 to-transparent'), 'AmbientBoardPage contains bottom directional readability scrim')
+assert(boardPageContent.includes('from-black/35 via-black/10 to-transparent'), 'AmbientBoardPage contains top directional readability scrim')
+assert(boardPageContent.includes('from-black/40 via-black/15 to-transparent'), 'AmbientBoardPage contains bottom directional readability scrim')
 assert(boardPageContent.includes('isScreensaver={isScreensaver}'), 'AmbientBoardPage propagates isScreensaver to AmbientClockWeather')
 
 // ----------------------------------------------------------------------

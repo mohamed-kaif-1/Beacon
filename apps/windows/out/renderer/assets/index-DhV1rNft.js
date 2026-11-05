@@ -10209,7 +10209,10 @@ const KenBurnsSlideshow = ({
           loading: "eager",
           onLoad: () => handleImageLoad(wallpaper.id),
           onError: () => handleImageError(wallpaper.id),
-          className: `absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`
+          className: `absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${isLoaded ? "opacity-100" : "opacity-0"}`,
+          style: {
+            filter: "brightness(1.16) contrast(1.05) saturate(1.12)"
+          }
         }
       )
     ] });
@@ -10233,12 +10236,12 @@ const KenBurnsSlideshow = ({
       {
         className: "absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500",
         style: {
-          backgroundColor: `rgba(0, 0, 0, ${backgroundDim})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(backgroundDim * 0.45, 0.2)})`
         }
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/70 via-black/15 to-black/75 pointer-events-none" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/25 via-transparent to-black/30 pointer-events-none" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_65%,rgba(0,0,0,0.15)_100%)]" })
   ] });
 };
 const CALM_QUOTES = [
@@ -10411,13 +10414,13 @@ const AmbientClockWeather = ({
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex flex-col space-y-1.5 px-5 py-3.5 rounded-2xl ambient-surface-glass max-w-fit select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(BeaconSymbol, { size: isScreensaver ? 20 : 18 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs uppercase tracking-widest font-semibold text-[#F8FAFC] ambient-shadow-text", children: "BEACON Ambient" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs uppercase tracking-widest font-bold text-[#FFFFFF] ambient-shadow-text", children: "BEACON Ambient" }),
           settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-300 text-xs", children: "•" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-[#E2E8F0] ambient-shadow-text", children: dateStr })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/60 text-xs", children: "•" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-semibold text-[#FFFFFF] ambient-shadow-text", children: dateStr })
           ] })
         ] }),
-        settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#F8FAFC] ambient-shadow-heading", children: dateStr.split(",")[0] })
+        settings.showDate && /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#FFFFFF] ambient-shadow-heading", children: dateStr.split(",")[0] })
       ] }),
       settings.showClock && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-baseline gap-2.5 px-6 py-3.5 rounded-2xl ambient-surface-glass select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -10430,7 +10433,7 @@ const AmbientClockWeather = ({
         ampmStr && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "span",
           {
-            className: `font-semibold tracking-wider text-[#F8FAFC] uppercase ambient-shadow-text ml-1.5 ${isScreensaver ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}`,
+            className: `font-bold tracking-wider text-[#FFFFFF] uppercase ambient-shadow-text ml-1.5 ${isScreensaver ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"}`,
             children: ampmStr
           }
         )
@@ -10441,15 +10444,15 @@ const AmbientClockWeather = ({
         "div",
         {
           onClick: onOpenSettings,
-          className: "group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/30 transition-all text-xs sm:text-sm text-white",
+          className: "group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs sm:text-sm text-white",
           title: `Weather data by Open-Meteo${weather.isStale ? " (Cached data — offline)" : ""} · Click to configure location`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "shrink-0", children: getWeatherIcon(weather.conditionCode) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-[#FFFFFF] text-xs sm:text-sm drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: settings.temperatureUnit === "F" ? `${weather.temperatureFahrenheit}°F` : `${weather.temperatureCelsius}°C` }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-300", children: "•" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[#E2E8F0] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: weather.condition }),
-            weather.isStale && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] bg-amber-500/30 text-amber-100 px-2 py-0.5 rounded-full font-semibold border border-amber-400/40", children: "Offline" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[#E2E8F0] font-medium hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white/60", children: "•" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[#FFFFFF] font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: weather.condition }),
+            weather.isStale && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] bg-amber-500/35 text-amber-100 px-2 py-0.5 rounded-full font-bold border border-amber-400/50", children: "Offline" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[#FFFFFF] font-semibold hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(MapPin, { className: "w-3.5 h-3.5 text-emerald-400 drop-shadow" }),
               weather.location
             ] })
@@ -10465,11 +10468,11 @@ const AmbientClockWeather = ({
               onOpenSettings();
             }
           },
-          className: "group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/30 transition-all text-xs text-[#E2E8F0]",
+          className: "group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs text-[#FFFFFF]",
           title: settings.weatherLocation?.trim() ? `Click to retry weather lookup for ${settings.weatherLocation}` : "Configure weather location (Open-Meteo)",
           children: [
-            weatherLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-3.5 h-3.5 text-emerald-400 animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "w-3.5 h-3.5 text-slate-300" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-medium text-[#E2E8F0]", children: weatherLoading ? settings.weatherLocation?.trim() ? `Updating weather for ${settings.weatherLocation}...` : "Updating weather..." : !settings.weatherLocation?.trim() ? "No location set · Configure location" : `Weather unavailable for ${settings.weatherLocation} · Tap to retry` })
+            weatherLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-3.5 h-3.5 text-emerald-400 animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "w-3.5 h-3.5 text-white" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold text-[#FFFFFF]", children: weatherLoading ? settings.weatherLocation?.trim() ? `Updating weather for ${settings.weatherLocation}...` : "Updating weather..." : !settings.weatherLocation?.trim() ? "No location set · Configure location" : `Weather unavailable for ${settings.weatherLocation} · Tap to retry` })
           ]
         }
       ) }),
@@ -10479,7 +10482,7 @@ const AmbientClockWeather = ({
           "“",
           quote.text,
           "” ",
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "not-italic text-[#CBD5E1] font-semibold ml-1.5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "not-italic text-emerald-300 font-bold ml-1.5", children: [
             "— ",
             quote.author
           ] })
@@ -10524,9 +10527,9 @@ const AmbientWatchesColumn = ({
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-[#F8FAFC] ambient-shadow-text", children: "Ambient Watch Feed" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: "Ambient Watch Feed" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-semibold text-emerald-300 ambient-shadow-text", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-bold text-emerald-400 ambient-shadow-text", children: [
         watches.length,
         " tracked"
       ] })
@@ -10740,7 +10743,7 @@ const AmbientTasksColumn = ({
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col space-y-2.5 max-w-sm w-full animate-fadeIn select-none", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl ambient-header-glass w-fit", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SquareCheckBig, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-[#F8FAFC] ambient-shadow-text", children: "Pending Tasks" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: "Pending Tasks" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
@@ -10749,7 +10752,7 @@ const AmbientTasksColumn = ({
           className: "p-3.5 rounded-2xl ambient-card-glass text-white text-xs flex items-center gap-2.5 shadow-lg",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "w-4 h-4 text-emerald-400 shrink-0 drop-shadow" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[#F8FAFC] font-medium text-xs sm:text-sm", children: "No pending tasks" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[#FFFFFF] font-semibold text-xs sm:text-sm", children: "No pending tasks" })
           ]
         }
       )
@@ -10759,9 +10762,9 @@ const AmbientTasksColumn = ({
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center justify-between w-full px-3.5 py-1.5 rounded-xl ambient-header-glass", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SquareCheckBig, { className: "w-4 h-4 text-emerald-400 drop-shadow" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-semibold tracking-wider uppercase text-[#F8FAFC] ambient-shadow-text", children: isScreensaver ? "Pending Tasks" : "Focus & Reminders" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xs font-bold tracking-wider uppercase text-[#FFFFFF] ambient-shadow-text", children: isScreensaver ? "Pending Tasks" : "Focus & Reminders" })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-semibold text-emerald-300 ambient-shadow-text", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-mono font-bold text-emerald-400 ambient-shadow-text", children: [
         tasks.length,
         " active"
       ] })
@@ -10775,19 +10778,19 @@ const AmbientTasksColumn = ({
           className: `p-3.5 rounded-2xl transition-all ${due.isOverdue ? "ambient-card-glass-overdue" : due.isToday ? "ambient-card-glass-today" : "ambient-card-glass"}`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-semibold text-[#FFFFFF] leading-snug line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: task.title }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xs sm:text-sm font-bold text-[#FFFFFF] leading-snug line-clamp-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]", children: task.title }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "span",
                 {
-                  className: `text-[10px] px-2 py-0.5 rounded-full capitalize font-semibold tracking-wide shrink-0 ${task.priority === "high" ? "bg-rose-500/35 text-rose-100 border border-rose-400/50" : task.priority === "medium" ? "bg-amber-500/35 text-amber-100 border border-amber-400/50" : "bg-sky-500/35 text-sky-100 border border-sky-400/50"}`,
+                  className: `text-[10px] px-2 py-0.5 rounded-full capitalize font-bold tracking-wide shrink-0 ${task.priority === "high" ? "bg-rose-500/40 text-white border border-rose-400/60 shadow-sm" : task.priority === "medium" ? "bg-amber-500/40 text-white border border-amber-400/60 shadow-sm" : "bg-sky-500/40 text-white border border-sky-400/60 shadow-sm"}`,
                   children: task.priority
                 }
               )
             ] }),
-            !isScreensaver && task.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-[#E2E8F0] line-clamp-1 leading-normal font-normal", children: task.description }),
-            task.dueDate && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] text-[#E2E8F0] font-medium pt-0.5", children: [
-              due.isOverdue ? /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3.5 h-3.5 text-slate-300 shrink-0 drop-shadow" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: due.isOverdue ? "text-rose-200 font-semibold" : "text-[#E2E8F0] font-medium", children: due.label })
+            !isScreensaver && task.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-[#FFFFFF]/85 line-clamp-1 leading-normal font-normal", children: task.description }),
+            task.dueDate && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] text-[#FFFFFF] font-semibold pt-0.5", children: [
+              due.isOverdue ? /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "w-3.5 h-3.5 text-rose-400 shrink-0 drop-shadow" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3.5 h-3.5 text-white/70 shrink-0 drop-shadow" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: due.isOverdue ? "text-rose-200 font-bold" : "text-[#FFFFFF] font-semibold", children: due.label })
             ] })
           ]
         },
@@ -12018,14 +12021,14 @@ const AmbientBoardPage = ({
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: "absolute inset-x-0 top-0 h-1/3 z-[5] pointer-events-none bg-gradient-to-b from-black/80 via-black/40 to-transparent transition-opacity duration-500",
+            className: "absolute inset-x-0 top-0 h-1/3 z-[5] pointer-events-none bg-gradient-to-b from-black/35 via-black/10 to-transparent transition-opacity duration-500",
             "aria-hidden": "true"
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: "absolute inset-x-0 bottom-0 h-2/5 z-[5] pointer-events-none bg-gradient-to-t from-black/80 via-black/35 to-transparent transition-opacity duration-500",
+            className: "absolute inset-x-0 bottom-0 h-2/5 z-[5] pointer-events-none bg-gradient-to-t from-black/40 via-black/15 to-transparent transition-opacity duration-500",
             "aria-hidden": "true"
           }
         ),

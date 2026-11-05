@@ -224,13 +224,13 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
         <div className="inline-flex flex-col space-y-1.5 px-5 py-3.5 rounded-2xl ambient-surface-glass max-w-fit select-none">
           <div className="flex items-center gap-2">
             <BeaconSymbol size={isScreensaver ? 20 : 18} />
-            <span className="text-xs uppercase tracking-widest font-semibold text-[#F8FAFC] ambient-shadow-text">
+            <span className="text-xs uppercase tracking-widest font-bold text-[#FFFFFF] ambient-shadow-text">
               BEACON Ambient
             </span>
             {settings.showDate && (
               <>
-                <span className="text-slate-300 text-xs">•</span>
-                <span className="text-xs font-medium text-[#E2E8F0] ambient-shadow-text">
+                <span className="text-white/60 text-xs">•</span>
+                <span className="text-xs font-semibold text-[#FFFFFF] ambient-shadow-text">
                   {dateStr}
                 </span>
               </>
@@ -238,7 +238,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
           </div>
 
           {settings.showDate && (
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#F8FAFC] ambient-shadow-heading">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#FFFFFF] ambient-shadow-heading">
               {dateStr.split(',')[0]}
             </h1>
           )}
@@ -258,7 +258,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
             </span>
             {ampmStr && (
               <span
-                className={`font-semibold tracking-wider text-[#F8FAFC] uppercase ambient-shadow-text ml-1.5 ${
+                className={`font-bold tracking-wider text-[#FFFFFF] uppercase ambient-shadow-text ml-1.5 ${
                   isScreensaver ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl'
                 }`}
               >
@@ -277,7 +277,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
             {weather ? (
               <div
                 onClick={onOpenSettings}
-                className="group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/30 transition-all text-xs sm:text-sm text-white"
+                className="group cursor-pointer inline-flex items-center gap-2.5 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs sm:text-sm text-white"
                 title={`Weather data by Open-Meteo${weather.isStale ? ' (Cached data — offline)' : ''} · Click to configure location`}
               >
                 <span className="shrink-0">
@@ -288,16 +288,16 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                     ? `${weather.temperatureFahrenheit}°F`
                     : `${weather.temperatureCelsius}°C`}
                 </span>
-                <span className="text-slate-300">•</span>
-                <span className="text-[#E2E8F0] font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <span className="text-white/60">•</span>
+                <span className="text-[#FFFFFF] font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   {weather.condition}
                 </span>
                 {weather.isStale && (
-                  <span className="text-[10px] bg-amber-500/30 text-amber-100 px-2 py-0.5 rounded-full font-semibold border border-amber-400/40">
+                  <span className="text-[10px] bg-amber-500/35 text-amber-100 px-2 py-0.5 rounded-full font-bold border border-amber-400/50">
                     Offline
                   </span>
                 )}
-                <span className="text-[#E2E8F0] font-medium hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <span className="text-[#FFFFFF] font-semibold hidden sm:inline-flex items-center gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   <MapPin className="w-3.5 h-3.5 text-emerald-400 drop-shadow" />
                   {weather.location}
                 </span>
@@ -311,15 +311,15 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
                     onOpenSettings()
                   }
                 }}
-                className="group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/30 transition-all text-xs text-[#E2E8F0]"
+                className="group cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-2xl ambient-pill-glass hover:border-white/40 transition-all text-xs text-[#FFFFFF]"
                 title={settings.weatherLocation?.trim() ? `Click to retry weather lookup for ${settings.weatherLocation}` : 'Configure weather location (Open-Meteo)'}
               >
                 {weatherLoading ? (
                   <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
                 ) : (
-                  <Cloud className="w-3.5 h-3.5 text-slate-300" />
+                  <Cloud className="w-3.5 h-3.5 text-white" />
                 )}
-                <span className="font-medium text-[#E2E8F0]">
+                <span className="font-semibold text-[#FFFFFF]">
                   {weatherLoading
                     ? (settings.weatherLocation?.trim()
                         ? `Updating weather for ${settings.weatherLocation}...`
@@ -338,7 +338,7 @@ export const AmbientClockWeather: React.FC<AmbientClockWeatherProps> = ({
           <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl ambient-pill-glass max-w-xl text-xs sm:text-sm select-none">
             <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 not-italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
             <span className="truncate text-[#FFFFFF] font-medium italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
-              “{quote.text}” <span className="not-italic text-[#CBD5E1] font-semibold ml-1.5">— {quote.author}</span>
+              “{quote.text}” <span className="not-italic text-emerald-300 font-bold ml-1.5">— {quote.author}</span>
             </span>
           </div>
         )}

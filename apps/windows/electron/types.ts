@@ -274,12 +274,11 @@ export interface WeatherData {
 }
 
 export type WallpaperCategory =
-  | 'cinematic-nature'
-  | 'dark-moody'
-  | 'japanese-zen'
   | 'cosmic-space'
-  | 'cozy-atmospheric'
-  | 'abstract-minimal'
+  | 'aurora'
+  | 'starry-night'
+  | 'campfire'
+  | 'moonlit'
   | 'custom'
 
 export interface WallpaperItem {

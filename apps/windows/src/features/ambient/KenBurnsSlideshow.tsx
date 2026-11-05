@@ -108,6 +108,9 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
             className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-700 ease-in-out ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
+            style={{
+              filter: 'brightness(1.16) contrast(1.05) saturate(1.12)'
+            }}
           />
         )}
       </div>
@@ -138,19 +141,19 @@ export const KenBurnsSlideshow: React.FC<KenBurnsSlideshowProps> = ({
         </div>
       )}
 
-      {/* Atmospheric Dimming Overlay (user-adjustable) */}
+      {/* Atmospheric Dimming Overlay (gentle user-adjustable curve that preserves vibrancy without crushing brightness) */}
       <div
         className="absolute inset-0 w-full h-full z-20 pointer-events-none transition-colors duration-500"
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${backgroundDim})`
+          backgroundColor: `rgba(0, 0, 0, ${Math.min(backgroundDim * 0.45, 0.20)})`
         }}
       />
 
-      {/* Dual Edge-Shadow Vignette Gradients for Text Legibility (matching macOS BoardView) */}
-      <div className="absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/70 via-black/15 to-black/75 pointer-events-none" />
+      {/* Subtle Edge-Shadow Vignette Gradients for Text Legibility (gentle and translucent, preserving wallpaper vibrancy) */}
+      <div className="absolute inset-0 w-full h-full z-20 bg-gradient-to-b from-black/25 via-transparent to-black/30 pointer-events-none" />
 
       {/* Subtle Radial Vignette focusing eye towards center */}
-      <div className="absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.45)_100%)]" />
+      <div className="absolute inset-0 w-full h-full z-20 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_65%,rgba(0,0,0,0.15)_100%)]" />
     </div>
   )
 }
